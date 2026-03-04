@@ -70,10 +70,14 @@ export default function TemplatePreview({
             <>
               <div className="flex justify-between text-sm mb-2">
                 <span className="font-medium">
-                  {caracteres} / {limite}
+                  {caracteres}
+                  {' '}
+                  /
+                  {limite}
                 </span>
                 <span className={percentual > 100 ? 'text-red-600' : 'text-gray-600'}>
-                  {percentual.toFixed(0)}%
+                  {percentual.toFixed(0)}
+                  %
                 </span>
               </div>
               <div className="w-full bg-gray-300 rounded-full h-2">
@@ -113,12 +117,10 @@ export default function TemplatePreview({
                 type="text"
                 placeholder={`Digite o valor para {${variavel}}`}
                 value={variavelMap[variavel] || ''}
-                onChange={(e) =>
-                  setVariavelMap((prev) => ({
-                    ...prev,
-                    [variavel]: e.target.value,
-                  }))
-                }
+                onChange={(e) => setVariavelMap((prev) => ({
+                  ...prev,
+                  [variavel]: e.target.value,
+                }))}
                 className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
@@ -134,8 +136,8 @@ export default function TemplatePreview({
             canal === 'SMS'
               ? 'bg-blue-50 border-blue-200 max-h-40 overflow-y-auto'
               : canal === 'WHATSAPP'
-              ? 'bg-green-50 border-green-200'
-              : 'bg-gray-50 border-gray-200'
+                ? 'bg-green-50 border-green-200'
+                : 'bg-gray-50 border-gray-200'
           }`}
         >
           {conteudoRenderizado || '(mensagem vazia)'}
@@ -145,7 +147,12 @@ export default function TemplatePreview({
       {/* Dicas */}
       <div className="text-xs text-gray-500 space-y-1">
         <p>💡 Dica: SMS tem limite de 160 caracteres por mensagem</p>
-        <p>💡 Use {'{variavel}'} para adicionar placeholders dinâmicos</p>
+        <p>
+          💡 Use
+          {'{variavel}'}
+          {' '}
+          para adicionar placeholders dinâmicos
+        </p>
         <p>💡 WhatsApp permite formatação com *bold* e _itálico_</p>
       </div>
     </div>

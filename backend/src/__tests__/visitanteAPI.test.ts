@@ -1,6 +1,7 @@
 // Testes para Visitantes API (Story 1.1.2)
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { visitanteService } from '../services/visitanteService';
+import {
+  describe, it, expect, beforeEach, vi,
+} from 'vitest';
 import { CreateVisitanteDTO, UpdateVisitanteDTO } from '../types/visitante';
 
 // Mock do Prisma

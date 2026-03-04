@@ -22,7 +22,7 @@ router.get('/atendimento', async (req: Request, res: Response) => {
 
     // Verificar limite
     const podeExportar = await relatorioService.verificarLimiteExports(
-      usuarioId
+      usuarioId,
     );
     if (!podeExportar) {
       return res.status(429).json({
@@ -45,18 +45,18 @@ router.get('/atendimento', async (req: Request, res: Response) => {
       res.setHeader('Content-Type', 'application/pdf');
       res.setHeader(
         'Content-Disposition',
-        'attachment; filename="relatorio-atendimento.pdf"'
+        'attachment; filename="relatorio-atendimento.pdf"',
       );
       res.send('PDF not yet implemented');
     } else if (formato === 'excel') {
       // TODO: Implementar geração de Excel com xlsx
       res.setHeader(
         'Content-Type',
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       );
       res.setHeader(
         'Content-Disposition',
-        'attachment; filename="relatorio-atendimento.xlsx"'
+        'attachment; filename="relatorio-atendimento.xlsx"',
       );
       res.send('Excel not yet implemented');
     } else {
@@ -87,7 +87,7 @@ router.get('/visitantes', async (req: Request, res: Response) => {
 
     // Verificar limite
     const podeExportar = await relatorioService.verificarLimiteExports(
-      usuarioId
+      usuarioId,
     );
     if (!podeExportar) {
       return res.status(429).json({
@@ -106,17 +106,17 @@ router.get('/visitantes', async (req: Request, res: Response) => {
       res.setHeader('Content-Type', 'application/pdf');
       res.setHeader(
         'Content-Disposition',
-        'attachment; filename="relatorio-visitantes.pdf"'
+        'attachment; filename="relatorio-visitantes.pdf"',
       );
       res.send('PDF not yet implemented');
     } else if (formato === 'excel') {
       res.setHeader(
         'Content-Type',
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       );
       res.setHeader(
         'Content-Disposition',
-        'attachment; filename="relatorio-visitantes.xlsx"'
+        'attachment; filename="relatorio-visitantes.xlsx"',
       );
       res.send('Excel not yet implemented');
     } else {
@@ -146,7 +146,7 @@ router.get('/csv', async (req: Request, res: Response) => {
 
     // Verificar limite
     const podeExportar = await relatorioService.verificarLimiteExports(
-      usuarioId
+      usuarioId,
     );
     if (!podeExportar) {
       return res.status(429).json({
@@ -163,21 +163,18 @@ router.get('/csv', async (req: Request, res: Response) => {
 
     // Converter para CSV
     const headers = Object.keys(dados[0] || {});
-    const csv =
-      headers.join(',') +
-      '\n' +
+    const csv = `${headers.join(',')
+    }\n${
       dados
-        .map((d) =>
-          headers
-            .map((h) => {
-              const val = d[h];
-              return typeof val === 'string' && val.includes(',')
-                ? `"${val}"`
-                : val;
-            })
-            .join(',')
-        )
-        .join('\n');
+        .map((d) => headers
+          .map((h) => {
+            const val = d[h];
+            return typeof val === 'string' && val.includes(',')
+              ? `"${val}"`
+              : val;
+          })
+          .join(','))
+        .join('\n')}`;
 
     res.setHeader('Content-Type', 'text/csv');
     res.setHeader('Content-Disposition', 'attachment; filename="relatorio.csv"');

@@ -10,8 +10,9 @@ const router = Router();
  */
 router.post('/', async (req: Request, res: Response) => {
   try {
-    const { titulo, templateId, segmentacao, envioImediato, dataAgendamento } =
-      req.body;
+    const {
+      titulo, templateId, segmentacao, envioImediato, dataAgendamento,
+    } = req.body;
 
     if (!titulo || !templateId || !segmentacao) {
       return res.status(400).json({
@@ -49,7 +50,7 @@ router.post('/', async (req: Request, res: Response) => {
  */
 router.get('/', async (req: Request, res: Response) => {
   try {
-    const status = req.query.status as string | undefined;
+    const _status = req.query.status as string | undefined;
     const limite = Math.min(parseInt(req.query.limite as string) || 20, 100);
     const offset = Math.max(parseInt(req.query.offset as string) || 0, 0);
 

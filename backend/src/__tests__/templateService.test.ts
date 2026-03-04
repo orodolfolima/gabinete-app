@@ -1,7 +1,8 @@
 // Testes para TemplateService (Story 1.4.1)
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { templateService } from '../services/templateService';
-import { CreateTemplateDTO, UpdateTemplateDTO } from '../types/template';
+import {
+  describe, it, expect, beforeEach, vi,
+} from 'vitest';
+import { CreateTemplateDTO } from '../types/template';
 
 // Mock do Prisma
 vi.mock('@prisma/client', () => {
@@ -37,7 +38,7 @@ describe('TemplateService', () => {
         variaveis: ['data', 'hora'],
       };
 
-      const mockTemplate = {
+      const _mockTemplate = {
         id: '123',
         ...data,
         ativo: true,
@@ -47,7 +48,7 @@ describe('TemplateService', () => {
         atualizadoEm: new Date(),
       };
 
-      const mockVersao = {
+      const _mockVersao = {
         id: 'v123',
         templateId: '123',
         numero: 1,

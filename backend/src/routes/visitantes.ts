@@ -40,7 +40,9 @@ router.get('/', async (req: Request, res: Response) => {
     const limite = Math.min(parseInt(req.query.limite as string) || 20, 100);
     const offset = Math.max(parseInt(req.query.offset as string) || 0, 0);
 
-    const result = await visitanteService.list({ categoria, cidade, limite, offset });
+    const result = await visitanteService.list({
+      categoria, cidade, limite, offset,
+    });
     res.json(result);
   } catch (error) {
     res.status(500).json({
@@ -129,7 +131,7 @@ router.post('/:id/interacao', async (req: Request, res: Response) => {
       req.params.id,
       tipo,
       descricao,
-      usuarioId
+      usuarioId,
     );
 
     res.status(201).json(interacao);

@@ -5,7 +5,9 @@ import { CreateTemplateRequest } from './types/template';
 
 export default function App() {
   const [view, setView] = useState<'list' | 'edit'>('list');
-  const { templates, loading, list, create } = useTemplates();
+  const {
+    templates, loading, list, create,
+  } = useTemplates();
 
   useEffect(() => {
     list();
@@ -124,7 +126,12 @@ export default function App() {
                   )}
 
                   <div className="pt-2 border-t border-gray-200 text-xs text-gray-500">
-                    v{template.versao} • {new Date(template.criadoEm).toLocaleDateString('pt-BR')}
+                    v
+                    {template.versao}
+                    {' '}
+                    •
+                    {' '}
+                    {new Date(template.criadoEm).toLocaleDateString('pt-BR')}
                   </div>
                 </div>
 

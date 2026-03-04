@@ -10,8 +10,9 @@ const router = Router();
  */
 router.post('/', async (req: Request, res: Response) => {
   try {
-    const { visitanteId, dataHora, duracao, tipo, assunto, responsavel } =
-      req.body;
+    const {
+      visitanteId, dataHora, duracao, tipo, assunto, responsavel,
+    } = req.body;
 
     if (!visitanteId || !dataHora || !duracao || !tipo || !assunto) {
       return res.status(400).json({

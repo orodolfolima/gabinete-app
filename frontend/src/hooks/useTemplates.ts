@@ -38,7 +38,7 @@ export function useTemplates() {
         setLoading(false);
       }
     },
-    []
+    [],
   );
 
   /**
@@ -106,9 +106,7 @@ export function useTemplates() {
         }
 
         const template = await response.json();
-        setTemplates((prev) =>
-          prev.map((t) => (t.id === id ? template : t))
-        );
+        setTemplates((prev) => prev.map((t) => (t.id === id ? template : t)));
         return template;
       } catch (err) {
         const message = err instanceof Error ? err.message : 'Erro desconhecido';
@@ -118,7 +116,7 @@ export function useTemplates() {
         setLoading(false);
       }
     },
-    []
+    [],
   );
 
   /**
@@ -164,7 +162,7 @@ export function useTemplates() {
         throw err;
       }
     },
-    []
+    [],
   );
 
   return {

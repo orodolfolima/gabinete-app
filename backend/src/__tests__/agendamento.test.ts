@@ -17,10 +17,10 @@ describe('Agendamento - Story 1.1.3', () => {
       };
 
       const fim1 = new Date(
-        ag1.dataHora.getTime() + ag1.duracao * 60000
+        ag1.dataHora.getTime() + ag1.duracao * 60000,
       );
       const fim2 = new Date(
-        ag2.dataHora.getTime() + ag2.duracao * 60000
+        ag2.dataHora.getTime() + ag2.duracao * 60000,
       );
 
       // Verificação de sobreposição
@@ -43,7 +43,7 @@ describe('Agendamento - Story 1.1.3', () => {
       };
 
       const fim1 = new Date(
-        ag1.dataHora.getTime() + ag1.duracao * 60000
+        ag1.dataHora.getTime() + ag1.duracao * 60000,
       );
 
       const temConflito = ag1.dataHora < ag2.dataHora && ag2.dataHora < fim1;
@@ -65,10 +65,10 @@ describe('Agendamento - Story 1.1.3', () => {
       };
 
       const fim1 = new Date(
-        ag1.dataHora.getTime() + ag1.duracao * 60000
+        ag1.dataHora.getTime() + ag1.duracao * 60000,
       );
       const fim2 = new Date(
-        ag2.dataHora.getTime() + ag2.duracao * 60000
+        ag2.dataHora.getTime() + ag2.duracao * 60000,
       );
 
       const temConflito = ag2.dataHora < fim1 && ag1.dataHora < fim2;
@@ -90,10 +90,10 @@ describe('Agendamento - Story 1.1.3', () => {
       };
 
       const fim1 = new Date(
-        ag1.dataHora.getTime() + ag1.duracao * 60000
+        ag1.dataHora.getTime() + ag1.duracao * 60000,
       );
       const fim2 = new Date(
-        ag2.dataHora.getTime() + ag2.duracao * 60000
+        ag2.dataHora.getTime() + ag2.duracao * 60000,
       );
 
       const temConflito = ag2.dataHora < fim1 && ag1.dataHora < fim2;
@@ -121,7 +121,8 @@ describe('Agendamento - Story 1.1.3', () => {
   describe('Validação de Duração', () => {
     it('deve rejeitar duração <= 0', () => {
       expect(() => {
-        if (0 <= 0 || 0 > 480) throw new Error('Duração inválida');
+        const duracao = 0;
+        if (duracao <= 0 || duracao > 480) throw new Error('Duração inválida');
       }).toThrow();
     });
 
@@ -201,7 +202,7 @@ describe('Agendamento - Story 1.1.3', () => {
       const checkOut = new Date('2026-03-05T10:45:00');
 
       const minutosDecorridos = Math.round(
-        (checkOut.getTime() - checkIn.getTime()) / 60000
+        (checkOut.getTime() - checkIn.getTime()) / 60000,
       );
 
       expect(minutosDecorridos).toBe(45);
@@ -215,7 +216,7 @@ describe('Agendamento - Story 1.1.3', () => {
       };
 
       const fimEsperado = new Date(
-        agendamento.dataHora.getTime() + agendamento.duracao * 60000
+        agendamento.dataHora.getTime() + agendamento.duracao * 60000,
       );
       const atrasado = agendamento.checkOut > fimEsperado;
 
@@ -232,9 +233,8 @@ describe('Agendamento - Story 1.1.3', () => {
         dataHora: new Date('2026-03-15'),
       };
 
-      const dentroPeriodo =
-        agendamento.dataHora >= dataInicio &&
-        agendamento.dataHora <= dataFim;
+      const dentroPeriodo = agendamento.dataHora >= dataInicio
+        && agendamento.dataHora <= dataFim;
 
       expect(dentroPeriodo).toBe(true);
     });
@@ -247,9 +247,8 @@ describe('Agendamento - Story 1.1.3', () => {
         dataHora: new Date('2026-04-15'),
       };
 
-      const dentroPeriodo =
-        agendamento.dataHora >= dataInicio &&
-        agendamento.dataHora <= dataFim;
+      const dentroPeriodo = agendamento.dataHora >= dataInicio
+        && agendamento.dataHora <= dataFim;
 
       expect(dentroPeriodo).toBe(false);
     });

@@ -28,8 +28,11 @@ interface HealthCheck {
 
 export class N8nService {
   private client: AxiosInstance;
+
   private n8nUrl: string;
+
   private retryAttempts = 3;
+
   private retryDelay = 1000; // ms
 
   constructor() {
@@ -86,9 +89,7 @@ export class N8nService {
     }
 
     try {
-      const response = await this.retryRequest(async () =>
-        this.client.post(`/webhook/${webhookPath}`, payload)
-      );
+      const response = await this.retryRequest(async () => this.client.post(`/webhook/${webhookPath}`, payload));
 
       return {
         executionId: response.data.executionId || response.data.id || 'unknown',
@@ -110,7 +111,7 @@ export class N8nService {
 
       if (!response.data) return null;
 
-      const data = response.data;
+      const { data } = response;
       return {
         executionId: data.id || executionId,
         workflowName: data.workflowName || 'unknown',
@@ -148,7 +149,7 @@ export class N8nService {
    */
   async listarExecucoes(
     limit = 50,
-    offset = 0
+    offset = 0,
   ): Promise<{ execucoes: WorkflowStatus[]; total: number }> {
     try {
       const response = await this.client.get('/api/v1/executions', {
@@ -178,14 +179,14 @@ export class N8nService {
    */
   private async retryRequest<T>(
     fn: () => Promise<T>,
-    attempt = 1
+    attempt = 1,
   ): Promise<T> {
     try {
       return await fn();
     } catch (error) {
       if (attempt < this.retryAttempts) {
         console.warn(
-          `Retry ${attempt}/${this.retryAttempts} após ${this.retryDelay}ms`
+          `Retry ${attempt}/${this.retryAttempts} após ${this.retryDelay}ms`,
         );
         await new Promise((resolve) => setTimeout(resolve, this.retryDelay));
         return this.retryRequest(fn, attempt + 1);

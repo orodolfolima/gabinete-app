@@ -37,7 +37,7 @@ describe('Campanha - Story 1.4.3', () => {
       ];
 
       const filtrados = visitantes.filter(
-        (v) => v.categoria === 'lideranca'
+        (v) => v.categoria === 'lideranca',
       );
 
       expect(filtrados.length).toBe(2);
@@ -169,7 +169,7 @@ describe('Campanha - Story 1.4.3', () => {
       ];
 
       const filtrados = visitantes.filter(
-        (v) => v.categoria === 'lideranca' && v.cidade === 'São Paulo'
+        (v) => v.categoria === 'lideranca' && v.cidade === 'São Paulo',
       );
 
       expect(filtrados.length).toBe(1);
@@ -194,10 +194,9 @@ describe('Campanha - Story 1.4.3', () => {
       ];
 
       const filtrados = visitantes.filter(
-        (v) =>
-          v.categoria === 'lideranca' &&
-          v.createdAt >= dataMinima &&
-          v.ultimaVisita >= dateLimite
+        (v) => v.categoria === 'lideranca'
+          && v.createdAt >= dataMinima
+          && v.ultimaVisita >= dateLimite,
       );
 
       expect(filtrados.length).toBe(1);
@@ -207,7 +206,7 @@ describe('Campanha - Story 1.4.3', () => {
   describe('Agendamento', () => {
     it('deve permitir agendamento para data/hora futura', () => {
       const dataAgendamento = new Date(
-        Date.now() + 24 * 60 * 60 * 1000
+        Date.now() + 24 * 60 * 60 * 1000,
       ); // Amanhã
       const agora = new Date();
 
@@ -218,7 +217,7 @@ describe('Campanha - Story 1.4.3', () => {
 
     it('deve rejeitar agendamento para data passada', () => {
       const dataAgendamento = new Date(
-        Date.now() - 24 * 60 * 60 * 1000
+        Date.now() - 24 * 60 * 60 * 1000,
       ); // Ontem
       const agora = new Date();
 

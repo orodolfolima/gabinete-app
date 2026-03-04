@@ -11,7 +11,7 @@ describe('Relatório - Story 1.1.5', () => {
       ];
 
       const visitantesUnicos = new Set(
-        agendamentos.map((a) => a.visitanteId)
+        agendamentos.map((a) => a.visitanteId),
       ).size;
 
       expect(visitantesUnicos).toBe(2);
@@ -26,7 +26,7 @@ describe('Relatório - Story 1.1.5', () => {
       ];
 
       const realizados = agendamentos.filter(
-        (a) => a.status === 'realizado'
+        (a) => a.status === 'realizado',
       ).length;
       const taxa = (realizados / agendamentos.length) * 100;
 
@@ -99,7 +99,7 @@ describe('Relatório - Story 1.1.5', () => {
       ];
 
       const novos = visitantes.filter(
-        (v) => v.createdAt >= dataInicio && v.createdAt <= dataFim
+        (v) => v.createdAt >= dataInicio && v.createdAt <= dataFim,
       ).length;
 
       expect(novos).toBe(2);
@@ -165,10 +165,9 @@ describe('Relatório - Story 1.1.5', () => {
 
     it('deve escapar valores com vírgula em CSV', () => {
       const valor = 'Silva, João';
-      const escapado =
-        typeof valor === 'string' && valor.includes(',')
-          ? `"${valor}"`
-          : valor;
+      const escapado = typeof valor === 'string' && valor.includes(',')
+        ? `"${valor}"`
+        : valor;
 
       expect(escapado).toBe('"Silva, João"');
     });
@@ -216,7 +215,7 @@ describe('Relatório - Story 1.1.5', () => {
       ];
 
       const filtrados = agendamentos.filter(
-        (a) => a.dataHora >= dataInicio && a.dataHora <= dataFim
+        (a) => a.dataHora >= dataInicio && a.dataHora <= dataFim,
       );
 
       expect(filtrados.length).toBe(2);
@@ -239,7 +238,7 @@ describe('Relatório - Story 1.1.5', () => {
     it('deve suportar período de 30 dias por default', () => {
       const agora = new Date();
       const trinta_dias_atras = new Date(
-        agora.getTime() - 30 * 24 * 60 * 60 * 1000
+        agora.getTime() - 30 * 24 * 60 * 60 * 1000,
       );
 
       expect(trinta_dias_atras.getTime()).toBeLessThan(agora.getTime());

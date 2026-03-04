@@ -31,7 +31,7 @@ export class RelatorioService {
    * Gerar relatório de atendimento
    */
   async gerarRelatorioAtendimento(
-    periodo: RelatorioPeriodo
+    periodo: RelatorioPeriodo,
   ): Promise<RelatorioAtendimento> {
     const { dataInicio, dataFim } = periodo;
 
@@ -49,22 +49,20 @@ export class RelatorioService {
     const visitantes = new Set(agendamentos.map((a) => a.visitanteId)).size;
     const realizados = agendamentos.filter((a) => a.status === 'realizado').length;
     const cancelados = agendamentos.filter((a) => a.status === 'cancelado').length;
-    const taxaPresenca =
-      agendamentos.length > 0
-        ? (realizados / agendamentos.length) * 100
-        : 0;
+    const taxaPresenca = agendamentos.length > 0
+      ? (realizados / agendamentos.length) * 100
+      : 0;
 
     // Tempo médio de atendimento
     const comCheckInOut = agendamentos.filter((a) => a.checkIn && a.checkOut);
-    const tempoMedio =
-      comCheckInOut.length > 0
-        ? comCheckInOut.reduce((acc, a) => {
-            const duracao = a.checkOut!.getTime() - a.checkIn!.getTime();
-            return acc + duracao;
-          }, 0) /
-          comCheckInOut.length /
-          60000
-        : 0;
+    const tempoMedio = comCheckInOut.length > 0
+      ? comCheckInOut.reduce((acc, a) => {
+        const duracao = a.checkOut!.getTime() - a.checkIn!.getTime();
+        return acc + duracao;
+      }, 0)
+          / comCheckInOut.length
+          / 60000
+      : 0;
 
     // Top categorias
     const topCategories = agendamentos
@@ -76,7 +74,7 @@ export class RelatorioService {
           else acc.push({ categoria: cat, count: 1 });
           return acc;
         },
-        [] as Array<{ categoria: string; count: number }>
+        [] as Array<{ categoria: string; count: number }>,
       )
       .sort((a, b) => b.count - a.count)
       .slice(0, 5);
@@ -96,7 +94,7 @@ export class RelatorioService {
    * Gerar relatório de visitantes
    */
   async gerarRelatorioVisitantes(
-    periodo: RelatorioPeriodo
+    periodo: RelatorioPeriodo,
   ): Promise<RelatorioVisitantes> {
     const { dataInicio, dataFim } = periodo;
 
@@ -106,7 +104,7 @@ export class RelatorioService {
     });
 
     const novosCadastros = visitantes.filter(
-      (v) => v.createdAt >= dataInicio && v.createdAt <= dataFim
+      (v) => v.createdAt >= dataInicio && v.createdAt <= dataFim,
     ).length;
 
     // Visitantes com agendamentos no período
@@ -131,7 +129,7 @@ export class RelatorioService {
           else acc.push({ categoria: cat, count: 1 });
           return acc;
         },
-        [] as Array<{ categoria: string; count: number }>
+        [] as Array<{ categoria: string; count: number }>,
       )
       .sort((a, b) => b.count - a.count);
 
@@ -146,7 +144,7 @@ export class RelatorioService {
           else acc.push({ estado: est, count: 1 });
           return acc;
         },
-        [] as Array<{ estado: string; count: number }>
+        [] as Array<{ estado: string; count: number }>,
       )
       .sort((a, b) => b.count - a.count);
 
@@ -163,7 +161,7 @@ export class RelatorioService {
    * Gerar dados para CSV (visitantes + agendamentos)
    */
   async gerarCSVData(
-    periodo: RelatorioPeriodo
+    periodo: RelatorioPeriodo,
   ): Promise<Array<Record<string, any>>> {
     const { dataInicio, dataFim } = periodo;
 
@@ -199,7 +197,7 @@ export class RelatorioService {
   async registrarExport(
     formato: string,
     usuarioId: string,
-    tipoRelatorio: string
+    tipoRelatorio: string,
   ): Promise<void> {
     // TODO: Implementar audit log em tabela
     console.log(`Export: ${formato} - ${tipoRelatorio} by ${usuarioId}`);
@@ -208,7 +206,7 @@ export class RelatorioService {
   /**
    * Verificar limite de exports/dia
    */
-  async verificarLimiteExports(usuarioId: string): Promise<boolean> {
+  async verificarLimiteExports(_usuarioId: string): Promise<boolean> {
     // TODO: Implementar limite no BD
     // Por enquanto, sempre retorna true
     return true;

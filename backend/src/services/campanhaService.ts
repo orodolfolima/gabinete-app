@@ -27,6 +27,7 @@ interface RelatorioEnvio {
 
 export class CampanhaService {
   private readonly LIMITE_DIARIO = 10000; // 10k envios/dia
+
   private readonly BLACKLIST = new Set<string>(); // Em produção usar DB
 
   /**
@@ -102,7 +103,7 @@ export class CampanhaService {
     // Filtro de última visita (dias)
     if (criterios.ultVisita) {
       const dateLimite = new Date(
-        Date.now() - criterios.ultVisita * 24 * 60 * 60 * 1000
+        Date.now() - criterios.ultVisita * 24 * 60 * 60 * 1000,
       );
       where.agendamentos = {
         some: { dataHora: { gte: dateLimite } },
@@ -149,7 +150,7 @@ export class CampanhaService {
     };
 
     console.log(
-      `Campanha ${campanhaId}: ${relatorio.entregues}/${relatorio.total} entregues`
+      `Campanha ${campanhaId}: ${relatorio.entregues}/${relatorio.total} entregues`,
     );
 
     return relatorio;
@@ -158,7 +159,7 @@ export class CampanhaService {
   /**
    * Obter relatório de campanha
    */
-  async getRelatorio(campanhaId: string): Promise<RelatorioEnvio> {
+  async getRelatorio(_campanhaId: string): Promise<RelatorioEnvio> {
     // TODO: Implementar busca no BD
     return {
       total: 500,

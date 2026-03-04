@@ -55,7 +55,7 @@ export class TemplateService {
     canal?: string,
     ativo?: boolean,
     skip = 0,
-    take = 20
+    take = 20,
   ): Promise<{ templates: Template[]; total: number }> {
     const where: any = {};
     if (canal) where.canal = canal;
@@ -92,14 +92,13 @@ export class TemplateService {
   async update(
     id: string,
     data: UpdateTemplateDTO,
-    criadorId: string
+    _criadorId: string,
   ): Promise<Template> {
     const template = await this.getById(id);
     if (!template) throw new Error('Template não encontrado');
 
     if (data.variaveis) this.validarVariaveis(data.variaveis);
-    if (data.conteudo && data.canal)
-      this.validarComprimentoCanal(data.conteudo, data.canal);
+    if (data.conteudo && data.canal) this.validarComprimentoCanal(data.conteudo, data.canal);
 
     // Atualizar template
     const updated = await prisma.template.update({
@@ -152,12 +151,12 @@ export class TemplateService {
    */
   async preview(
     templateId: string,
-    variavelMap: Record<string, string>
+    variavelMap: Record<string, string>,
   ): Promise<TemplatePreview> {
     const template = await this.getById(templateId);
     if (!template) throw new Error('Template não encontrado');
 
-    let conteudo = template.conteudo;
+    let { conteudo } = template;
 
     // Substituir variáveis
     for (const [key, value] of Object.entries(variavelMap)) {
@@ -179,11 +178,11 @@ export class TemplateService {
 
   private validarVariaveis(variaveis: string[]): void {
     const invalidos = variaveis.filter(
-      (v) => !VARIAVEIS_DISPONIVEIS.includes(v as any)
+      (v) => !VARIAVEIS_DISPONIVEIS.includes(v as any),
     );
     if (invalidos.length > 0) {
       throw new Error(
-        `Variáveis inválidas: ${invalidos.join(', ')}. Permitidas: ${VARIAVEIS_DISPONIVEIS.join(', ')}`
+        `Variáveis inválidas: ${invalidos.join(', ')}. Permitidas: ${VARIAVEIS_DISPONIVEIS.join(', ')}`,
       );
     }
   }
@@ -192,24 +191,20 @@ export class TemplateService {
     const limite = CANAL_LIMITES[canal as keyof typeof CANAL_LIMITES];
     if (conteudo.length > limite) {
       throw new Error(
-        `Conteúdo excede limite de ${limite} caracteres para ${canal}`
+        `Conteúdo excede limite de ${limite} caracteres para ${canal}`,
       );
     }
   }
 
   private gerarMudancas(
     template: Template,
-    data: UpdateTemplateDTO
+    data: UpdateTemplateDTO,
   ): string {
     const mudancas: string[] = [];
-    if (data.titulo && data.titulo !== template.titulo)
-      mudancas.push(`Título: "${template.titulo}" → "${data.titulo}"`);
-    if (data.conteudo && data.conteudo !== template.conteudo)
-      mudancas.push('Conteúdo atualizado');
-    if (data.canal && data.canal !== template.canal)
-      mudancas.push(`Canal: ${template.canal} → ${data.canal}`);
-    if (data.ativo !== undefined && data.ativo !== template.ativo)
-      mudancas.push(`Status: ${template.ativo ? 'ativo' : 'inativo'}`);
+    if (data.titulo && data.titulo !== template.titulo) mudancas.push(`Título: "${template.titulo}" → "${data.titulo}"`);
+    if (data.conteudo && data.conteudo !== template.conteudo) mudancas.push('Conteúdo atualizado');
+    if (data.canal && data.canal !== template.canal) mudancas.push(`Canal: ${template.canal} → ${data.canal}`);
+    if (data.ativo !== undefined && data.ativo !== template.ativo) mudancas.push(`Status: ${template.ativo ? 'ativo' : 'inativo'}`);
 
     return mudancas.length > 0 ? mudancas.join('; ') : 'Sem alterações';
   }
@@ -221,8 +216,7 @@ export class TemplateService {
     if (limite !== Infinity) {
       const percentual = (caracteres / limite) * 100;
       if (percentual > 90) avisos.push(`Próximo ao limite (${percentual.toFixed(0)}%)`);
-      if (percentual > 100)
-        avisos.push(`EXCEDE LIMITE em ${caracteres - limite} caracteres`);
+      if (percentual > 100) avisos.push(`EXCEDE LIMITE em ${caracteres - limite} caracteres`);
     }
 
     return avisos;

@@ -33,13 +33,13 @@ export class AgendamentoService {
     const conflito = await this.detectarConflito(
       data.dataHora,
       data.duracao,
-      null // novo agendamento, sem ID
+      null, // novo agendamento, sem ID
     );
 
     if (conflito) {
       throw new Error(
-        `Conflito de horário detectado com agendamento ${conflito.id} ` +
-          `(${conflito.dataHora} - ${new Date(new Date(conflito.dataHora).getTime() + conflito.duracao * 60000).toLocaleTimeString()})`
+        `Conflito de horário detectado com agendamento ${conflito.id} `
+          + `(${conflito.dataHora} - ${new Date(new Date(conflito.dataHora).getTime() + conflito.duracao * 60000).toLocaleTimeString()})`,
       );
     }
 
@@ -121,7 +121,7 @@ export class AgendamentoService {
       const conflito = await this.detectarConflito(novaDataHora, novaDuracao, id);
 
       if (conflito) {
-        throw new Error(`Conflito de horário detectado`);
+        throw new Error('Conflito de horário detectado');
       }
     }
 
@@ -238,7 +238,7 @@ export class AgendamentoService {
         visitanteId: agendamento.visitanteId,
         tipo: 'check_out',
         descricao: `Check-out realizado após ${Math.round(
-          (new Date().getTime() - agendamento.checkIn.getTime()) / 60000
+          (new Date().getTime() - agendamento.checkIn.getTime()) / 60000,
         )} minutos`,
       },
     });
@@ -252,7 +252,7 @@ export class AgendamentoService {
   private async detectarConflito(
     dataHora: Date,
     duracao: number,
-    excludeId?: string | null
+    excludeId?: string | null,
   ): Promise<any | null> {
     const inicio = new Date(dataHora);
     const fim = new Date(dataHora.getTime() + duracao * 60000);
@@ -274,10 +274,11 @@ export class AgendamentoService {
 
     for (const a of conflitantes) {
       const fimExistente = new Date(
-        a.dataHora.getTime() + a.duracao * 60000
+        a.dataHora.getTime() + a.duracao * 60000,
       );
       // Verificar se há sobreposição real
       if (a.dataHora < fim && fimExistente > inicio) {
+        // eslint-disable-next-line no-continue
         if (excludeId && a.id === excludeId) continue;
         return a;
       }
@@ -309,7 +310,7 @@ export class AgendamentoService {
    */
   private async dispararNotificacao(
     agendamento: any,
-    evento: string
+    evento: string,
   ): Promise<void> {
     try {
       const payload = {

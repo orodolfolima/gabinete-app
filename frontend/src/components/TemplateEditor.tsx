@@ -28,9 +28,7 @@ export default function TemplateEditor({
   const [error, setError] = useState<string | null>(null);
 
   const handleAddVariavel = useCallback((variavel: string) => {
-    setVariaveis((prev) =>
-      prev.includes(variavel) ? prev : [...prev, variavel]
-    );
+    setVariaveis((prev) => (prev.includes(variavel) ? prev : [...prev, variavel]));
   }, []);
 
   const handleRemoveVariavel = useCallback((variavel: string) => {
@@ -164,7 +162,13 @@ export default function TemplateEditor({
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm"
             />
             <p className="text-xs text-gray-500 mt-2">
-              Use chaves para variáveis: {'{nome}'}, {'{data}'}, etc.
+              Use chaves para variáveis:
+              {' '}
+              {'{nome}'}
+              ,
+              {' '}
+              {'{data}'}
+              , etc.
             </p>
           </div>
 

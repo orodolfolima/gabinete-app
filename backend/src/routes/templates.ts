@@ -37,8 +37,7 @@ router.post('/', async (req: Request, res: Response) => {
 router.get('/', async (req: Request, res: Response) => {
   try {
     const canal = req.query.canal as string | undefined;
-    const ativo =
-      req.query.ativo === 'true' ? true : req.query.ativo === 'false' ? false : undefined;
+    const ativo = req.query.ativo === 'true' ? true : req.query.ativo === 'false' ? false : undefined;
     const skip = Math.max(0, parseInt(req.query.skip as string) || 0);
     const take = Math.min(100, parseInt(req.query.take as string) || 20);
 

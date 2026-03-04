@@ -1,6 +1,8 @@
 // Service para Visitante CRUD (Story 1.1.2)
 import { PrismaClient } from '@prisma/client';
-import { CreateVisitanteDTO, UpdateVisitanteDTO, validarCPF, validarEmail, validarTelefone } from '../types/visitante';
+import {
+  CreateVisitanteDTO, UpdateVisitanteDTO, validarCPF, validarEmail, validarTelefone,
+} from '../types/visitante';
 
 const prisma = new PrismaClient();
 
@@ -50,16 +52,16 @@ export class VisitanteService {
         categoria: data.categoria,
         endereco: data.endereco
           ? {
-              create: {
-                cep: data.endereco.cep,
-                logradouro: data.endereco.logradouro,
-                numero: data.endereco.numero,
-                complemento: data.endereco.complemento,
-                bairro: data.endereco.bairro,
-                cidade: data.endereco.cidade,
-                estado: data.endereco.estado,
-              },
-            }
+            create: {
+              cep: data.endereco.cep,
+              logradouro: data.endereco.logradouro,
+              numero: data.endereco.numero,
+              complemento: data.endereco.complemento,
+              bairro: data.endereco.bairro,
+              cidade: data.endereco.cidade,
+              estado: data.endereco.estado,
+            },
+          }
           : undefined,
       },
       include: { endereco: true },
