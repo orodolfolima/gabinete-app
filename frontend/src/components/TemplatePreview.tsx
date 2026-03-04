@@ -1,5 +1,5 @@
 // Componente TemplatePreview (Story 1.4.1 - Frontend)
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { TemplateChannel, CANAL_LABELS } from '../types/template';
 
 interface TemplatePreviewProps {

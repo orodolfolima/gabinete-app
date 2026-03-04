@@ -84,7 +84,7 @@ describe('Visitante API - Story 1.1.2', () => {
       };
 
       expect(data.endereco).toBeTruthy();
-      expect(data.endereco.cep).toBe('01310100');
+      expect(data.endereco!.cep).toBe('01310100');
     });
 
     it('deve criptografar CPF na resposta', async () => {

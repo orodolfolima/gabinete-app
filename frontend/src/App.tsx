@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import TemplateEditor from './components/TemplateEditor';
 import { useTemplates } from './hooks/useTemplates';
 import { CreateTemplateRequest } from './types/template';

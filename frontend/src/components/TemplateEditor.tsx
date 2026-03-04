@@ -1,5 +1,5 @@
 // Componente TemplateEditor (Story 1.4.1 - Frontend)
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import {
   Template,
   CreateTemplateRequest,

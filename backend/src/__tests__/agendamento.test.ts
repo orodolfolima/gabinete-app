@@ -142,7 +142,7 @@ describe('Agendamento - Story 1.1.3', () => {
 
   describe('Transições de Status', () => {
     it('deve transicionar agendado → confirmado (check-in)', () => {
-      const agendamento = {
+      const agendamento: { status: string; checkIn: Date | null } = {
         status: 'agendado',
         checkIn: null,
       };
@@ -156,7 +156,7 @@ describe('Agendamento - Story 1.1.3', () => {
     });
 
     it('deve transicionar confirmado → realizado (check-out)', () => {
-      const agendamento = {
+      const agendamento: { status: string; checkIn: Date; checkOut: Date | null } = {
         status: 'confirmado',
         checkIn: new Date(Date.now() - 30 * 60000), // 30 min atrás
         checkOut: null,
