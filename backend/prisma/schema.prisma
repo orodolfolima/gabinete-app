@@ -47,3 +47,130 @@ model TemplateVersao {
   @@unique([templateId, numero])
   @@index([templateId])
 }
+
+// Story 1.1.1: Modelo de Visitantes
+model Visitante {
+  id        String   @id @default(cuid())
+  cpf       String   @unique
+  rg        String?
+  nome      String
+  email     String?
+  telefone  String?
+  whatsapp  String?
+  fotoUrl   String?  @db.VarChar(500)
+  categoria String?  // "lideranca", "empresario", "cidadao", etc
+
+  endereco   Endereco?
+  interacoes Interacao[]
+  agendamentos Agendamento[]
+  demandas   Demanda[]
+
+  deletedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([cpf])
+  @@index([email])
+  @@index([telefone])
+  @@index([categoria])
+}
+
+model Endereco {
+  id         String   @id @default(cuid())
+  visitanteId String  @unique
+  visitante  Visitante @relation(fields: [visitanteId], references: [id], onDelete: Cascade)
+
+  cep        String
+  logradouro String
+  numero     String
+  complemento String?
+  bairro     String
+  cidade     String
+  estado     String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([visitanteId])
+}
+
+model Interacao {
+  id         String   @id @default(cuid())
+  visitanteId String
+  visitante  Visitante @relation(fields: [visitanteId], references: [id], onDelete: Cascade)
+
+  tipo       String?
+  descricao  String?  @db.Text
+  data       DateTime @default(now())
+  usuarioId  String?
+
+  createdAt DateTime @default(now())
+
+  @@index([visitanteId])
+  @@index([data])
+}
+
+// Models para outras stories que dependem de Visitante
+model Agendamento {
+  id           String   @id @default(cuid())
+  visitanteId String
+  visitante    Visitante @relation(fields: [visitanteId], references: [id], onDelete: Cascade)
+
+  dataHora     DateTime
+  duracao      Int      // minutos
+  tipo         String   // "visita", "reuniao", etc
+  assunto      String
+  status       String   // "agendado", "confirmado", "realizado", "cancelado"
+
+  checkIn      DateTime?
+  checkOut     DateTime?
+  responsavel  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([visitanteId])
+  @@index([dataHora])
+  @@index([status])
+}
+
+model Demanda {
+  id          String   @id @default(cuid())
+  protocolo   String   @unique // "DEM-2026-001"
+  visitanteId String
+  visitante   Visitante @relation(fields: [visitanteId], references: [id], onDelete: Cascade)
+
+  tipo        String   // "saude", "educacao", "infraestrutura", etc
+  titulo      String
+  descricao   String   @db.Text
+  prioridade  String   // "urgente", "alta", "media", "baixa"
+  status      String   // "aberta", "em_andamento", "resolvida", "cancelada"
+  responsavel String?
+
+  prazaEstimado DateTime?
+  dataConclusao DateTime?
+
+  tramitacoes Tramitacao[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([visitanteId])
+  @@index([status])
+  @@index([prioridade])
+}
+
+model Tramitacao {
+  id        String @id @default(cuid())
+  demandaId String
+  demanda   Demanda @relation(fields: [demandaId], references: [id], onDelete: Cascade)
+
+  usuarioId String
+  statusAnterior String
+  statusNovo String
+  descricao String? @db.Text
+
+  createdAt DateTime @default(now())
+
+  @@index([demandaId])
+}
