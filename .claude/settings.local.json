@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh auth:*)",
+      "Bash(ls:*)",
+      "Bash(docker pull:*)"
+    ]
+  },
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\\\Users\\\\user\\\\Documents\\\\Do ZERO ao Milhão\\\\AIOS\\\\Projetos\\\\.claude\\\\hooks\\\\precompact-session-digest.cjs\"",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\\\Users\\\\user\\\\Documents\\\\Do ZERO ao Milhão\\\\AIOS\\\\Projetos\\\\.claude\\\\hooks\\\\synapse-engine.cjs\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

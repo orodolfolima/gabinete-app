@@ -1,0 +1,136 @@
+{
+  "name": "Confirmação de Agendamento",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "agendamento-confirmado",
+        "method": "POST"
+      },
+      "id": "webhook_trigger",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://backend:5000/api/templates",
+        "method": "GET",
+        "options": {
+          "response": {
+            "response": {
+              "ndjson": false,
+              "fullResponse": false
+            }
+          }
+        },
+        "authentication": "none"
+      },
+      "id": "fetch_template",
+      "name": "Fetch Template",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [450, 300],
+      "dependsOn": ["webhook_trigger"]
+    },
+    {
+      "parameters": {
+        "functionCode": "const payload = $input.first().json.body || {};\nconst templates = $input.last().json.templates || [];\n\n// Find CONFIRMACAO_AGENDAMENTO template\nconst template = templates.find(t => t.titulo.includes('Confirmação'));\n\nif (!template) {\n  throw new Error('Template não encontrado');\n}\n\n// Render variables\nlet conteudo = template.conteudo;\nconst variaveis = ['data', 'hora'];\n\nfor (const v of variaveis) {\n  if (payload[v]) {\n    conteudo = conteudo.replace(new RegExp(`{${v}}`, 'g'), payload[v]);\n  }\n}\n\nreturn {\n  template: template,\n  conteudo: conteudo,\n  visitante_id: payload.visitanteId,\n  canal: 'SMS'\n};"
+      },
+      "id": "render_template",
+      "name": "Render Template",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [650, 300],
+      "dependsOn": ["fetch_template"]
+    },
+    {
+      "parameters": {
+        "url": "https://api.sms-gateway.example.com/send",
+        "method": "POST",
+        "headers": {
+          "Authorization": "Bearer {{$env.SMS_GATEWAY_API_KEY}}"
+        },
+        "body": {
+          "content_type": "application/json",
+          "body": "{\n  \"phone\": \"{{$node['render_template'].json.visitante_id}}\",\n  \"message\": \"{{$node['render_template'].json.conteudo}}\",\n  \"sender\": \"{{$env.SMS_SENDER}}\"\n}"
+        }
+      },
+      "id": "send_sms",
+      "name": "Send SMS",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [850, 300],
+      "dependsOn": ["render_template"]
+    },
+    {
+      "parameters": {
+        "url": "http://backend:5000/api/logs/webhooks",
+        "method": "POST",
+        "body": {
+          "content_type": "application/json",
+          "body": "{\n  \"event\": \"agendamento_confirmado\",\n  \"status\": \"{{$node['send_sms'].json.success ? 'success' : 'error'}}\",\n  \"visitante_id\": \"{{$node['render_template'].json.visitante_id}}\",\n  \"execution_id\": \"{{$execution.id}}\",\n  \"timestamp\": \"{{$now.toISOString()}}\",\n  \"response\": {{JSON.stringify($node['send_sms'].json)}}\n}"
+        }
+      },
+      "id": "log_execution",
+      "name": "Log Execution",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1050, 300],
+      "dependsOn": ["send_sms"],
+      "onError": "continueRegardlessOfError"
+    }
+  ],
+  "connections": {
+    "webhook_trigger": {
+      "main": [
+        [
+          {
+            "node": "fetch_template",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "fetch_template": {
+      "main": [
+        [
+          {
+            "node": "render_template",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "render_template": {
+      "main": [
+        [
+          {
+            "node": "send_sms",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "send_sms": {
+      "main": [
+        [
+          {
+            "node": "log_execution",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "errorHandler": {
+      "enabled": true
+    }
+  }
+}
