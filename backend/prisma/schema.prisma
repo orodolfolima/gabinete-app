@@ -13,4 +13,37 @@ model User {
   name      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  templates Template[]
+}
+
+model Template {
+  id        String   @id @default(cuid())
+  titulo    String
+  conteudo  String   @db.Text
+  canal     String   // "SMS", "WHATSAPP", "EMAIL"
+  variaveis String[] // JSON array de variáveis
+  ativo     Boolean  @default(true)
+  versao    Int      @default(1)
+  criadorId String
+  criador   User     @relation(fields: [criadorId], references: [id])
+  versoes   TemplateVersao[]
+  criadoEm  DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+
+  @@index([canal])
+  @@index([ativo])
+  @@index([criadoEm])
+}
+
+model TemplateVersao {
+  id         String   @id @default(cuid())
+  templateId String
+  template   Template @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  numero     Int
+  conteudo   String   @db.Text
+  mudancas   String?  @db.Text
+  criadoEm   DateTime @default(now())
+
+  @@unique([templateId, numero])
+  @@index([templateId])
 }
