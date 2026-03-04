@@ -1,0 +1,18 @@
+# Global
+* @orodolfolima
+
+# Frontend
+/frontend/ @orodolfolima
+*.tsx @orodolfolima
+*.ts @orodolfolima
+
+# Backend
+/backend/ @orodolfolima
+/backend/prisma/ @orodolfolima
+
+# GitHub
+/.github/ @orodolfolima
+
+# Root configs
+Dockerfile @orodolfolima
+docker-compose.yml @orodolfolima
