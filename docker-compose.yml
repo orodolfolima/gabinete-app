@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
       POSTGRES_DB: siggap_dev
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -22,7 +22,7 @@ services:
     build: ./backend
     restart: always
     ports:
-      - "5000:5000"
+      - "127.0.0.1:5000:5000"
     environment:
       NODE_ENV: production
       DATABASE_URL: postgresql://postgres:${DB_PASSWORD:-postgres}@db:5432/siggap_dev
@@ -41,7 +41,7 @@ services:
         VITE_API_URL: ${API_URL:-http://localhost:5000}
     restart: always
     ports:
-      - "3000:3000"
+      - "127.0.0.1:3000:3000"
     depends_on:
       - backend
 
