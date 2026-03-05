@@ -41,7 +41,7 @@ services:
           - node.role == manager
       labels:
         - traefik.enable=true
-        - traefik.http.routers.siggap_api.rule=Host(`gabinete.rlautomacoes.com`) && PathPrefix(`/api`, `/health`)
+        - traefik.http.routers.siggap_api.rule=Host(`gabinete.rlautomacoes.com`) && (PathPrefix(`/api`) || PathPrefix(`/health`))
         - traefik.http.routers.siggap_api.entrypoints=websecure
         - traefik.http.routers.siggap_api.tls.certresolver=letsencryptresolver
         - traefik.http.routers.siggap_api.priority=2
