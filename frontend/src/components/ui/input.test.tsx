@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import {
-  describe, it, expect, vi,
+  describe, it, expect,
 } from 'vitest';
 import {
   Input, Select, Textarea, FormField,
@@ -102,7 +102,6 @@ describe('Select', () => {
   });
 
   it('fires onChange', () => {
-    const _onChange = vi.fn();
     renderSelect();
     const select = screen.getByRole('combobox');
     fireEvent.change(select, { target: { value: 'ativo' } });
