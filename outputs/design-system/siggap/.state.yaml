@@ -1,0 +1,136 @@
+project: siggap
+scan_path: frontend/src
+agent: uma-ux-design-expert
+current_phase: migration_complete
+
+audit:
+  completed_at: "2026-03-05"
+  frameworks_detected:
+    react: true
+    typescript: true
+    tailwind: true
+  files_scanned: 11
+  patterns:
+    buttons:
+      total_instances: 47
+      unique_patterns: 12
+    colors:
+      unique_variants: 30
+      total_instances: 116
+    spacing:
+      total_instances: 308
+    forms:
+      input_instances: 21
+      select_instances: 8
+      textarea_instances: 2
+    typography:
+      font_families: 1
+      font_sizes: 8
+
+consolidation:
+  completed_at: "2026-03-05"
+  decisions_approved:
+    - "TemplateEditor drifts: blue-500 + rounded-md -> indigo-600 + rounded-lg"
+    - "Emerald kept for export/download semantic actions only"
+    - "Icon-action padding standardized to p-2"
+  patterns_consolidated:
+    buttons:
+      before: 47
+      after: 7
+      reduction: "85.1%"
+      variants: [primary, primary-sm, secondary, ghost, icon-action, export, outline]
+    colors:
+      before: 30
+      after: 8
+      reduction: "73.3%"
+    forms:
+      before: 31
+      after: 3
+      reduction: "90.3%"
+      components: [Input, Select, Textarea]
+  overall_reduction: "81.8%"
+  target_met: true
+
+tokenize:
+  completed_at: "2026-03-05"
+  architecture: "3-layer (core / semantic / component)"
+  tailwind_version: "3"
+  color_space: oklch
+  coverage: "96.8%"
+  tokens:
+    color: 28
+    spacing: 10
+    typography: 12
+    radius: 5
+    component: 14
+    total: 69
+  exports:
+    - tokens.yaml      # source of truth (3-layer)
+    - tokens.css       # CSS custom properties (:root)
+    - tokens.json      # JS/TS import
+    - tokens.tailwind.js # Tailwind v3 theme.extend
+    - tokens.scss      # SCSS variables
+  artifacts_path: outputs/design-system/siggap/tokens/
+
+build:
+  completed_at: "2026-03-05"
+  components_built:
+    - name: Button
+      path: src/components/ui/button.tsx
+      tests: 23
+      variants: [primary, secondary, danger, export, ghost, outline, icon-view, icon-edit, icon-delete]
+      sizes: [sm, md, lg, icon]
+    - name: Input
+      path: src/components/ui/input.tsx
+      tests: 8
+    - name: Select
+      path: src/components/ui/input.tsx
+      tests: 6
+    - name: Textarea
+      path: src/components/ui/input.tsx
+      tests: 4
+    - name: FormField
+      path: src/components/ui/input.tsx
+      tests: 5
+  total_tests: 46
+  all_passing: true
+  barrel_export: src/components/ui/index.ts
+  dependencies_added:
+    - class-variance-authority
+    - tailwind-merge
+    - clsx
+
+migration_strategy:
+  completed_at: "2026-03-06"
+  total_inline_elements: 72
+  buttons: 39
+  forms: 33
+  files_to_migrate: 7
+  phases:
+    phase_1: "COMPLETA"
+    phase_2: "Migrar botões — 39 instâncias em 6 arquivos"
+    phase_3: "Migrar formulários — 33 instâncias em 6 arquivos"
+    phase_4: "Drift fixes + enforcement ESLint"
+  artifacts_path: outputs/design-system/siggap/migration/
+  artifacts:
+    - migration-strategy.md
+    - component-mapping.json
+    - phase-2-buttons.md
+    - phase-3-forms.md
+    - migration-progress.yaml
+
+enforcement:
+  completed_at: "2026-03-06"
+  eslint_rule: ".eslintrc.json overrides — no-restricted-syntax para src/pages/**/*.tsx + src/components/*.tsx"
+  eslint_disable_documented: 2  # checkbox (Campanhas) + dropdown item (Agendamentos)
+  readme_created: "outputs/design-system/siggap/README.md"
+  tests_final: 46
+  out_of_scope:
+    - "src/components/TemplatePreview.tsx:116 — <input> com drift (próxima iteração)"
+    - "src/components/layout/Sidebar.tsx — 3x <button> navegação (próxima iteração)"
+
+next_steps:
+  recommended: "*a11y-check — verificação WCAG AA para tokens indigo/gray/green/red"
+  alternatives:
+    - "calculate-roi — ROI e economia anual estimada"
+    - "Migrar TemplatePreview.tsx e Sidebar.tsx (pendências out-of-scope)"

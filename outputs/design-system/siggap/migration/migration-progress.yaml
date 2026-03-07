@@ -1,0 +1,129 @@
+project: siggap
+migration_version: "1.0"
+started_at: "2026-03-05"
+completed_at: "2026-03-06"
+
+phases:
+  phase_1_foundation:
+    status: complete
+    completed_at: "2026-03-05"
+    deliverables:
+      - tokens.yaml ✓
+      - tokens.css ✓
+      - tokens.json ✓
+      - tokens.tailwind.js ✓
+      - tokens.scss ✓
+      - src/components/ui/button.tsx ✓
+      - src/components/ui/input.tsx ✓
+      - src/lib/utils.ts ✓
+      - vitest configurado ✓
+    tests_passing: 46
+
+  phase_2_buttons:
+    status: complete
+    completed_at: "2026-03-06"
+    target_instances: 39
+    migrated_instances: 39
+    notes: "1 dropdown item (Agendamentos visitor search) kept as <button> by design"
+    drift_fixed: true
+    files:
+      Visitantes.tsx:
+        status: complete
+        buttons_total: 12
+        buttons_migrated: 12
+      Templates.tsx:
+        status: complete
+        buttons_total: 10
+        buttons_migrated: 10
+      Agendamentos.tsx:
+        status: complete
+        buttons_total: 6
+        buttons_migrated: 6
+        kept_as_button: 1  # dropdown item list
+      Campanhas.tsx:
+        status: complete
+        buttons_total: 6
+        buttons_migrated: 6
+      TemplateEditor.tsx:
+        status: complete
+        buttons_total: 4
+        buttons_migrated: 4
+        drift_fixed: "blue-500 -> indigo-600, pill blue-100 -> indigo-100"
+      Relatorios.tsx:
+        status: complete
+        buttons_total: 3
+        buttons_migrated: 3
+
+  phase_3_forms:
+    status: complete
+    completed_at: "2026-03-06"
+    target_instances: 33
+    migrated_instances: 33
+    notes: "1 checkbox nativo mantido (Campanhas envioImediato) — não coberto pelo componente Input"
+    drift_fixed: true
+    files:
+      Visitantes.tsx:
+        status: complete
+        fields_total: 10
+        fields_migrated: 10
+      Agendamentos.tsx:
+        status: complete
+        fields_total: 8
+        fields_migrated: 8
+      Campanhas.tsx:
+        status: complete
+        fields_total: 4
+        fields_migrated: 4
+        kept_native: 1  # checkbox type
+      Templates.tsx:
+        status: complete
+        fields_total: 4
+        fields_migrated: 4
+      TemplateEditor.tsx:
+        status: complete
+        fields_total: 3
+        fields_migrated: 3
+        drift_fixed: "rounded-md -> rounded-lg, border-gray-300 -> border-gray-200, ring-blue-500 -> ring-indigo-500"
+      Relatorios.tsx:
+        status: complete
+        fields_total: 2
+        fields_migrated: 2
+
+  phase_4_enforcement:
+    status: complete
+    completed_at: "2026-03-06"
+    tasks:
+      - verify_drift_fixes: complete  # 5 drifts corrigidos, 2 nativos intencionais confirmados
+      - eslint_rule: complete  # .eslintrc.json overrides para src/pages/**/*.tsx + src/components/*.tsx
+      - readme_update: complete  # outputs/design-system/siggap/README.md criado
+      - visual_audit: skipped  # ambiente sem browser disponível; app roda em Docker
+    out_of_scope_documented:
+      - file: "src/components/TemplatePreview.tsx:116"
+        element: "<input type='text'>"
+        drift: "border-gray-300, ring-blue-500"
+        action: "candidato à próxima iteração"
+      - file: "src/components/layout/Sidebar.tsx"
+        element: "3x <button>"
+        action: "candidato à próxima iteração"
+
+  phase_extra_components:
+    status: complete
+    completed_at: "2026-03-06"
+    notes: "Componentes fora do escopo original migrados — cobertura total"
+    files:
+      TemplatePreview.tsx:
+        element: "<input type='text'> com drift border-gray-300/ring-blue-500"
+        migrated_to: "FormField + Input"
+        drift_fixed: true
+      Sidebar.tsx:
+        elements: "3x <button> (mobile toggle, desktop collapse, mobile close)"
+        migrated_to: "Button variant=ghost"
+
+metrics:
+  total_inline_elements: 76  # 72 originais + 4 extras (1 input TemplatePreview + 3 buttons Sidebar)
+  migrated: 76
+  percentage: "100%"
+  tests_passing: 46
+  drift_fixes_applied: 6  # +1 border-gray-300->border-gray-200 ring-blue-500->ring-indigo-500 em TemplatePreview
+  a11y_fixes_applied: 1  # emerald-600->emerald-700 (export button: 3.77->5.47:1 WCAG AA)
+  remaining_native: 2  # 1 checkbox (Campanhas) + 1 dropdown item (Agendamentos) — por design

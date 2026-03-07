@@ -1,0 +1,182 @@
+metadata:
+  version: "1.0.0"
+  project: siggap
+  generated_by: "Uma (UX Design Expert)"
+  generated_at: "2026-03-05"
+  dtcg_spec: "2025.10"
+  color_space: oklch
+  tailwind_version: "3"
+  coverage: "96.8%"
+  source: outputs/design-system/siggap/consolidation/pattern-mapping.json
+
+# ============================================================
+# LAYER 1 — CORE (primitive values, no semantic meaning)
+# ============================================================
+layers:
+  core:
+    color:
+      # Indigo palette (brand)
+      indigo-50:   { $type: color, $value: "oklch(0.97 0.04 264)", $hex: "#eef2ff" }
+      indigo-100:  { $type: color, $value: "oklch(0.94 0.07 264)", $hex: "#e0e7ff" }
+      indigo-600:  { $type: color, $value: "oklch(0.51 0.24 264)", $hex: "#4f46e5" }
+      indigo-700:  { $type: color, $value: "oklch(0.46 0.22 264)", $hex: "#4338ca" }
+      # Red palette (danger)
+      red-50:      { $type: color, $value: "oklch(0.97 0.03 27)",  $hex: "#fef2f2" }
+      red-200:     { $type: color, $value: "oklch(0.88 0.07 27)",  $hex: "#fecaca" }
+      red-500:     { $type: color, $value: "oklch(0.56 0.22 27)",  $hex: "#ef4444" }
+      red-600:     { $type: color, $value: "oklch(0.51 0.22 27)",  $hex: "#dc2626" }
+      red-700:     { $type: color, $value: "oklch(0.46 0.20 27)",  $hex: "#b91c1c" }
+      # Amber palette (warning)
+      amber-50:    { $type: color, $value: "oklch(0.98 0.03 90)",  $hex: "#fffbeb" }
+      amber-600:   { $type: color, $value: "oklch(0.66 0.18 53)",  $hex: "#d97706" }
+      # Green palette (success)
+      green-50:    { $type: color, $value: "oklch(0.97 0.03 145)", $hex: "#f0fdf4" }
+      green-600:   { $type: color, $value: "oklch(0.52 0.17 145)", $hex: "#16a34a" }
+      # Emerald palette (export/action)
+      emerald-50:  { $type: color, $value: "oklch(0.97 0.03 155)", $hex: "#ecfdf5" }
+      emerald-600: { $type: color, $value: "oklch(0.52 0.17 155)", $hex: "#059669" }
+      emerald-700: { $type: color, $value: "oklch(0.47 0.15 155)", $hex: "#047857" }
+      # Blue palette (info)
+      blue-50:     { $type: color, $value: "oklch(0.97 0.02 231)", $hex: "#eff6ff" }
+      blue-600:    { $type: color, $value: "oklch(0.55 0.22 231)", $hex: "#2563eb" }
+      # Gray palette (neutral)
+      gray-50:     { $type: color, $value: "oklch(0.98 0 0)",      $hex: "#f9fafb" }
+      gray-100:    { $type: color, $value: "oklch(0.96 0 0)",      $hex: "#f3f4f6" }
+      gray-200:    { $type: color, $value: "oklch(0.92 0 0)",      $hex: "#e5e7eb" }
+      gray-300:    { $type: color, $value: "oklch(0.84 0 0)",      $hex: "#d1d5db" }
+      gray-400:    { $type: color, $value: "oklch(0.72 0 0)",      $hex: "#9ca3af" }
+      gray-500:    { $type: color, $value: "oklch(0.63 0 0)",      $hex: "#6b7280" }
+      gray-600:    { $type: color, $value: "oklch(0.54 0 0)",      $hex: "#4b5563" }
+      gray-700:    { $type: color, $value: "oklch(0.45 0 0)",      $hex: "#374151" }
+      gray-900:    { $type: color, $value: "oklch(0.21 0 0)",      $hex: "#111827" }
+      white:       { $type: color, $value: "oklch(1 0 0)",         $hex: "#ffffff" }
+
+    spacing:
+      $type: dimension
+      base: { $value: "4px" }
+      xs:   { $value: "4px" }   # p-1
+      sm:   { $value: "8px" }   # p-2
+      md:   { $value: "12px" }  # p-3
+      lg:   { $value: "16px" }  # p-4
+      xl:   { $value: "20px" }  # p-5
+      2xl:  { $value: "24px" }  # p-6
+      # Form-specific (derived)
+      form-x: { $value: "12px" }  # px-3
+      form-y: { $value: "8px" }   # py-2
+      btn-x:  { $value: "16px" }  # px-4
+      btn-y:  { $value: "10px" }  # py-2.5
+
+    typography:
+      font-family:
+        sans: { $type: fontFamily, $value: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif" }
+      font-size:
+        xs:   { $type: dimension, $value: "12px" }  # text-xs
+        sm:   { $type: dimension, $value: "14px" }  # text-sm
+        base: { $type: dimension, $value: "16px" }  # text-base
+        lg:   { $type: dimension, $value: "18px" }  # text-lg
+        xl:   { $type: dimension, $value: "20px" }  # text-xl
+        2xl:  { $type: dimension, $value: "24px" }  # text-2xl
+        3xl:  { $type: dimension, $value: "30px" }  # text-3xl
+      font-weight:
+        medium:    { $type: fontWeight, $value: "500" }
+        semibold:  { $type: fontWeight, $value: "600" }
+        bold:      { $type: fontWeight, $value: "700" }
+      border-radius:
+        sm:  { $type: dimension, $value: "4px" }   # rounded
+        md:  { $type: dimension, $value: "6px" }   # rounded-md (legacy - TemplateEditor)
+        lg:  { $type: dimension, $value: "8px" }   # rounded-lg (standard)
+        xl:  { $type: dimension, $value: "12px" }  # rounded-xl
+        full: { $type: dimension, $value: "9999px" } # rounded-full
+
+# ============================================================
+# LAYER 2 — SEMANTIC (named by purpose, references core)
+# ============================================================
+  semantic:
+    color:
+      # Brand
+      brand:              { $type: color, $value: "{layers.core.color.indigo-600}" }
+      brand-hover:        { $type: color, $value: "{layers.core.color.indigo-700}" }
+      brand-surface:      { $type: color, $value: "{layers.core.color.indigo-50}" }
+      brand-text:         { $type: color, $value: "{layers.core.color.indigo-700}" }
+      # Danger
+      danger:             { $type: color, $value: "{layers.core.color.red-600}" }
+      danger-hover:       { $type: color, $value: "{layers.core.color.red-700}" }
+      danger-surface:     { $type: color, $value: "{layers.core.color.red-50}" }
+      danger-border:      { $type: color, $value: "{layers.core.color.red-200}" }
+      danger-text:        { $type: color, $value: "{layers.core.color.red-700}" }
+      # Warning
+      warning:            { $type: color, $value: "{layers.core.color.amber-600}" }
+      warning-surface:    { $type: color, $value: "{layers.core.color.amber-50}" }
+      # Success
+      success:            { $type: color, $value: "{layers.core.color.green-600}" }
+      success-surface:    { $type: color, $value: "{layers.core.color.green-50}" }
+      # Export (special action)
+      export:             { $type: color, $value: "{layers.core.color.emerald-600}" }
+      export-hover:       { $type: color, $value: "{layers.core.color.emerald-700}" }
+      export-surface:     { $type: color, $value: "{layers.core.color.emerald-50}" }
+      # Info
+      info:               { $type: color, $value: "{layers.core.color.blue-600}" }
+      info-surface:       { $type: color, $value: "{layers.core.color.blue-50}" }
+      # Neutral
+      background:         { $type: color, $value: "{layers.core.color.gray-50}" }
+      surface:            { $type: color, $value: "{layers.core.color.white}" }
+      border:             { $type: color, $value: "{layers.core.color.gray-200}" }
+      border-hover:       { $type: color, $value: "{layers.core.color.gray-300}" }
+      text-primary:       { $type: color, $value: "{layers.core.color.gray-900}" }
+      text-secondary:     { $type: color, $value: "{layers.core.color.gray-700}" }
+      text-muted:         { $type: color, $value: "{layers.core.color.gray-500}" }
+      text-placeholder:   { $type: color, $value: "{layers.core.color.gray-400}" }
+      icon-default:       { $type: color, $value: "{layers.core.color.gray-400}" }
+      hover-bg:           { $type: color, $value: "{layers.core.color.gray-100}" }
+      disabled-bg:        { $type: color, $value: "{layers.core.color.gray-400}" }
+
+# ============================================================
+# LAYER 3 — COMPONENT (specific token per UI component)
+# ============================================================
+  component:
+    button:
+      primary:
+        bg:           { $value: "{layers.semantic.color.brand}" }
+        bg-hover:     { $value: "{layers.semantic.color.brand-hover}" }
+        bg-disabled:  { $value: "{layers.semantic.color.disabled-bg}" }
+        text:         { $value: "{layers.core.color.white}" }
+        px:           { $value: "{layers.core.spacing.btn-x}" }
+        py:           { $value: "{layers.core.spacing.btn-y}" }
+        radius:       { $value: "{layers.core.typography.border-radius.lg}" }
+        font-weight:  { $value: "{layers.core.typography.font-weight.medium}" }
+        font-size:    { $value: "{layers.core.typography.font-size.sm}" }
+      secondary:
+        bg:           { $value: "transparent" }
+        bg-hover:     { $value: "{layers.semantic.color.background}" }
+        text:         { $value: "{layers.semantic.color.text-secondary}" }
+        border:       { $value: "{layers.semantic.color.border}" }
+        px:           { $value: "{layers.core.spacing.btn-x}" }
+        py:           { $value: "{layers.core.spacing.btn-y}" }
+        radius:       { $value: "{layers.core.typography.border-radius.lg}" }
+      ghost:
+        bg:           { $value: "transparent" }
+        bg-hover:     { $value: "{layers.semantic.color.hover-bg}" }
+        p:            { $value: "{layers.core.spacing.sm}" }
+        radius:       { $value: "{layers.core.typography.border-radius.lg}" }
+      export:
+        bg:           { $value: "{layers.semantic.color.export-hover}" }    # a11y: emerald-600=3.77:1 ❌ → emerald-700=5.47:1 ✅
+        bg-hover:     { $value: "{layers.core.color.emerald-700}" }
+        text:         { $value: "{layers.core.color.white}" }
+        px:           { $value: "{layers.core.spacing.btn-x}" }
+        py:           { $value: "{layers.core.spacing.btn-y}" }
+        radius:       { $value: "{layers.core.typography.border-radius.lg}" }
+    input:
+      bg:             { $value: "{layers.core.color.white}" }
+      bg-disabled:    { $value: "{layers.semantic.color.background}" }
+      border:         { $value: "{layers.semantic.color.border}" }
+      ring:           { $value: "{layers.semantic.color.brand}" }
+      text:           { $value: "{layers.semantic.color.text-primary}" }
+      px:             { $value: "{layers.core.spacing.form-x}" }
+      py:             { $value: "{layers.core.spacing.form-y}" }
+      radius:         { $value: "{layers.core.typography.border-radius.lg}" }
+      font-size:      { $value: "{layers.core.typography.font-size.sm}" }
+    alert:
+      error:
+        bg:           { $value: "{layers.semantic.color.danger-surface}" }
+        border:       { $value: "{layers.semantic.color.danger-border}" }
+        text:         { $value: "{layers.semantic.color.danger-text}" }

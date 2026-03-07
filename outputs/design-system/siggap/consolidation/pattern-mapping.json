@@ -1,0 +1,120 @@
+{
+  "meta": {
+    "project": "siggap",
+    "generated_at": "2026-03-05",
+    "scan_path": "frontend/src",
+    "agent": "uma-ux-design-expert"
+  },
+  "buttons": {
+    "variants": {
+      "primary": {
+        "classes": "inline-flex items-center gap-2 bg-indigo-600 text-white px-4 py-2.5 rounded-lg hover:bg-indigo-700 transition-colors font-medium text-sm disabled:bg-gray-400",
+        "instances_before": 13,
+        "drifts_fixed": [
+          "bg-blue-500 rounded-md (TemplateEditor) -> bg-indigo-600 rounded-lg",
+          "bg-emerald-600 (Relatorios primary) -> bg-indigo-600",
+          "px-4 py-2 (inconsistent padding) -> px-4 py-2.5"
+        ]
+      },
+      "primary-sm": {
+        "classes": "inline-flex items-center gap-1.5 bg-indigo-600 text-white px-3 py-1.5 rounded-lg hover:bg-indigo-700 font-medium text-xs",
+        "instances_before": 2,
+        "note": "Small variant for compact contexts (Campanhas)"
+      },
+      "secondary": {
+        "classes": "px-4 py-2.5 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors",
+        "instances_before": 8,
+        "drifts_fixed": [
+          "bg-gray-300 text-gray-800 rounded-md (TemplateEditor) -> border variant"
+        ]
+      },
+      "ghost": {
+        "classes": "p-2 hover:bg-gray-100 rounded-lg transition-colors",
+        "instances_before": 8,
+        "note": "Modal close buttons, toggle icons. Size sm: p-1.5"
+      },
+      "icon-action": {
+        "base_classes": "p-2 text-gray-400 rounded-lg transition-colors",
+        "colors": {
+          "view":   "hover:text-indigo-600 hover:bg-indigo-50",
+          "edit":   "hover:text-amber-600 hover:bg-amber-50",
+          "delete": "hover:text-red-600 hover:bg-red-50"
+        },
+        "instances_before": 9,
+        "drifts_fixed": [
+          "p-1.5 (Templates) -> p-2 standardized"
+        ]
+      },
+      "export": {
+        "classes": "inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2.5 rounded-lg hover:bg-emerald-700 transition-colors font-medium text-sm",
+        "instances_before": 1,
+        "note": "Kept emerald intentionally for export/download semantic distinction"
+      },
+      "outline": {
+        "classes": "p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors",
+        "instances_before": 4,
+        "note": "Pagination controls"
+      }
+    },
+    "before": 47,
+    "after": 7,
+    "reduction": "85.1%"
+  },
+  "colors": {
+    "tokens": {
+      "brand":          "indigo-600",
+      "brand-hover":    "indigo-700",
+      "brand-surface":  "indigo-50",
+      "brand-text":     "indigo-700",
+      "danger":         "red-600",
+      "danger-surface": "red-50",
+      "danger-border":  "red-200",
+      "warning":        "amber-600",
+      "warning-surface":"amber-50",
+      "success":        "green-600",
+      "success-surface":"green-50",
+      "export":         "emerald-600",
+      "export-hover":   "emerald-700",
+      "info":           "blue-600",
+      "info-surface":   "blue-50",
+      "neutral-bg":     "gray-50",
+      "neutral-border": "gray-200",
+      "neutral-text":   "gray-700",
+      "neutral-muted":  "gray-400"
+    },
+    "before": 30,
+    "after": 8,
+    "reduction": "73.3%"
+  },
+  "forms": {
+    "input": {
+      "classes": "w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:bg-gray-100 transition-colors",
+      "instances_before": 21,
+      "after": 1
+    },
+    "select": {
+      "classes": "px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500",
+      "instances_before": 8,
+      "after": 1
+    },
+    "textarea": {
+      "classes": "w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none",
+      "instances_before": 2,
+      "after": 1
+    },
+    "before": 31,
+    "after": 3,
+    "reduction": "90.3%"
+  },
+  "summary": {
+    "total_before": 176,
+    "total_after": 32,
+    "overall_reduction": "81.8%",
+    "target_met": true,
+    "decisions_approved": [
+      "TemplateEditor drifts: blue-500 + rounded-md -> indigo-600 + rounded-lg",
+      "Emerald kept ONLY for export/download actions (semantic)",
+      "Icon-action padding standardized to p-2"
+    ]
+  }
+}
