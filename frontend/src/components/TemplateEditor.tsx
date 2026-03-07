@@ -8,6 +8,7 @@ import {
   VARIAVEIS_DISPONIVEIS,
 } from '../types/template';
 import TemplatePreview from './TemplatePreview';
+import { Button, Input, Select, Textarea, FormField } from './ui';
 
 interface TemplateEditorProps {
   template?: Template;
@@ -78,36 +79,30 @@ export default function TemplateEditor({
           )}
 
           {/* Título */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Título do Template
-            </label>
-            <input
+          <FormField label="Título do Template" htmlFor="titulo">
+            <Input
+              id="titulo"
               type="text"
               value={titulo}
               onChange={(e) => setTitulo(e.target.value)}
               placeholder="Ex: Confirmação de Agendamento"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-          </div>
+          </FormField>
 
           {/* Canal */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Canal de Envio
-            </label>
-            <select
+          <FormField label="Canal de Envio" htmlFor="canal">
+            <Select
+              id="canal"
               value={canal}
               onChange={(e) => setCanal(e.target.value as TemplateChannel)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               {Object.entries(CANAL_LABELS).map(([key, label]) => (
                 <option key={key} value={key}>
                   {label}
                 </option>
               ))}
-            </select>
-          </div>
+            </Select>
+          </FormField>
 
           {/* Variáveis */}
           <div>
@@ -116,17 +111,15 @@ export default function TemplateEditor({
             </label>
             <div className="flex flex-wrap gap-2 mb-3">
               {VARIAVEIS_DISPONIVEIS.map((v) => (
-                <button
+                <Button
                   key={v.value}
+                  size="sm"
+                  variant="outline"
+                  className={variaveis.includes(v.value) ? 'bg-indigo-100 text-indigo-700 border-transparent ring-1 ring-indigo-300' : ''}
                   onClick={() => handleAddVariavel(v.value)}
-                  className={`px-3 py-1 rounded text-sm font-medium transition ${
-                    variaveis.includes(v.value)
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                  }`}
                 >
                   {v.label}
-                </button>
+                </Button>
               ))}
             </div>
             {variaveis.length > 0 && (
@@ -134,15 +127,16 @@ export default function TemplateEditor({
                 {variaveis.map((v) => (
                   <span
                     key={v}
-                    className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm flex items-center gap-2"
+                    className="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm flex items-center gap-2"
                   >
                     {v}
-                    <button
+                    <Button
+                      variant="ghost"
+                      className="p-0 h-auto text-indigo-600 hover:text-indigo-800 hover:bg-transparent font-bold"
                       onClick={() => handleRemoveVariavel(v)}
-                      className="text-blue-600 hover:text-blue-800 font-bold"
                     >
                       ×
-                    </button>
+                    </Button>
                   </span>
                 ))}
               </div>
@@ -150,16 +144,14 @@ export default function TemplateEditor({
           </div>
 
           {/* Conteúdo */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Conteúdo da Mensagem
-            </label>
-            <textarea
+          <FormField label="Conteúdo da Mensagem" htmlFor="conteudo">
+            <Textarea
+              id="conteudo"
               value={conteudo}
               onChange={(e) => setConteudo(e.target.value)}
               placeholder="Digite sua mensagem aqui. Use {variavel} para adicionar placeholders."
               rows={8}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm"
+              className="font-mono"
             />
             <p className="text-xs text-gray-500 mt-2">
               Use chaves para variáveis:
@@ -170,24 +162,16 @@ export default function TemplateEditor({
               {'{data}'}
               , etc.
             </p>
-          </div>
+          </FormField>
 
           {/* Botões */}
           <div className="flex gap-3 pt-4">
-            <button
-              onClick={handleSave}
-              disabled={loading}
-              className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 disabled:bg-gray-400 font-medium"
-            >
-              {loading ? 'Salvando...' : 'Salvar Template'}
-            </button>
-            <button
-              onClick={onCancel}
-              disabled={loading}
-              className="flex-1 bg-gray-300 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-400 disabled:bg-gray-200 font-medium"
-            >
+            <Button className="flex-1" onClick={handleSave} disabled={loading} isLoading={loading} loadingLabel="Salvando...">
+              Salvar Template
+            </Button>
+            <Button variant="secondary" className="flex-1" onClick={onCancel} disabled={loading}>
               Cancelar
-            </button>
+            </Button>
           </div>
         </div>
       </div>

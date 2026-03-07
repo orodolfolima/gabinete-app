@@ -5,6 +5,7 @@ import {
   Trash2, Edit2, Smartphone, MessageCircle, Mail,
 } from 'lucide-react';
 import { useTemplates } from '../hooks/useTemplates';
+import { Button, Input, Textarea, FormField } from '../components/ui';
 import {
   Template, CreateTemplateRequest, TemplateChannel,
   CANAL_LABELS, VARIAVEIS_DISPONIVEIS,
@@ -121,34 +122,22 @@ export default function TemplatesPage() {
           <h1 className="text-2xl font-bold text-gray-900">Templates</h1>
           <p className="text-gray-500 mt-1">Modelos de mensagens</p>
         </div>
-        <button
-          onClick={() => {
-            setShowEditor(true);
-            setEditando(null);
-            setForm({
-              titulo: '', conteudo: '', canal: 'SMS', variaveis: [],
-            });
-          }}
-          className="inline-flex items-center gap-2 bg-indigo-600 text-white px-4 py-2.5 rounded-lg hover:bg-indigo-700 transition-colors font-medium text-sm"
-        >
+        <Button onClick={() => { setShowEditor(true); setEditando(null); setForm({ titulo: '', conteudo: '', canal: 'SMS', variaveis: [] }); }}>
           <Plus className="w-4 h-4" /> Novo Template
-        </button>
+        </Button>
       </div>
 
       {/* Filter */}
       <div className="flex gap-2">
         {['', 'SMS', 'WHATSAPP', 'EMAIL'].map((canal) => (
-          <button
+          <Button
             key={canal}
+            variant={filtroCanal === canal ? 'primary' : 'outline'}
+            size="sm"
             onClick={() => setFiltroCanal(canal)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-              filtroCanal === canal
-                ? 'bg-indigo-100 text-indigo-700'
-                : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
-            }`}
           >
             {canal || 'Todos'}
-          </button>
+          </Button>
         ))}
       </div>
 
@@ -209,27 +198,15 @@ export default function TemplatesPage() {
                     {new Date(t.criadoEm).toLocaleDateString('pt-BR')}
                   </p>
                   <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button
-                      onClick={() => setShowPreview(t)}
-                      className="p-1.5 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg"
-                      title="Preview"
-                    >
+                    <Button variant="icon-view" size="icon" onClick={() => setShowPreview(t)} title="Preview">
                       <Eye className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => handleEdit(t)}
-                      className="p-1.5 text-gray-400 hover:text-amber-600 hover:bg-amber-50 rounded-lg"
-                      title="Editar"
-                    >
+                    </Button>
+                    <Button variant="icon-edit" size="icon" onClick={() => handleEdit(t)} title="Editar">
                       <Edit2 className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(t.id)}
-                      className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg"
-                      title="Remover"
-                    >
+                    </Button>
+                    <Button variant="icon-delete" size="icon" onClick={() => handleDelete(t.id)} title="Remover">
                       <Trash2 className="w-4 h-4" />
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -244,9 +221,9 @@ export default function TemplatesPage() {
           <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
               <h2 className="text-lg font-semibold">{editando ? 'Editar Template' : 'Novo Template'}</h2>
-              <button onClick={() => setShowEditor(false)} className="p-2 hover:bg-gray-100 rounded-lg">
+              <Button variant="ghost" size="icon" onClick={() => setShowEditor(false)}>
                 <X className="w-4 h-4" />
-              </button>
+              </Button>
             </div>
 
             <div className="flex-1 overflow-y-auto">
@@ -255,15 +232,14 @@ export default function TemplatesPage() {
                 <div className="flex-1 p-6 space-y-4">
                   {formError && <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-700">{formError}</div>}
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Titulo *</label>
-                    <input
+                  <FormField label="Titulo" htmlFor="titulo" required>
+                    <Input
+                      id="titulo"
                       value={form.titulo}
                       onChange={(e) => setForm({ ...form, titulo: e.target.value })}
                       placeholder="Ex: Confirmacao de Agendamento"
-                      className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     />
-                  </div>
+                  </FormField>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Canal</label>
@@ -271,18 +247,15 @@ export default function TemplatesPage() {
                       {(Object.entries(CANAL_LABELS) as [TemplateChannel, string][]).map(([key]) => {
                         const Icon = CANAL_ICONS[key];
                         return (
-                          <button
+                          <Button
                             key={key}
+                            variant="ghost"
+                            className={`gap-2 ${form.canal === key ? CANAL_COLORS[key] : 'bg-gray-50 text-gray-600 hover:bg-gray-100'}`}
                             onClick={() => setForm({ ...form, canal: key })}
-                            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                              form.canal === key
-                                ? CANAL_COLORS[key]
-                                : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
-                            }`}
                           >
                             <Icon className="w-4 h-4" />
                             {key}
-                          </button>
+                          </Button>
                         );
                       })}
                     </div>
@@ -292,29 +265,27 @@ export default function TemplatesPage() {
                     <label className="block text-sm font-medium text-gray-700 mb-1">Variaveis</label>
                     <div className="flex flex-wrap gap-2">
                       {VARIAVEIS_DISPONIVEIS.map((v) => (
-                        <button
+                        <Button
                           key={v.value}
+                          size="sm"
+                          variant="ghost"
+                          className={form.variaveis.includes(v.value) ? 'bg-indigo-100 text-indigo-700 ring-1 ring-indigo-300' : 'bg-gray-50 text-gray-600 hover:bg-gray-100'}
                           onClick={() => toggleVariavel(v.value)}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                            form.variaveis.includes(v.value)
-                              ? 'bg-indigo-100 text-indigo-700 ring-1 ring-indigo-300'
-                              : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
-                          }`}
                         >
                           {v.label}
-                        </button>
+                        </Button>
                       ))}
                     </div>
                   </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Conteudo *</label>
-                    <textarea
+                  <FormField label="Conteudo" htmlFor="conteudo" required>
+                    <Textarea
+                      id="conteudo"
                       value={form.conteudo}
                       onChange={(e) => setForm({ ...form, conteudo: e.target.value })}
                       placeholder="Digite sua mensagem. Use {variavel} para placeholders."
                       rows={6}
-                      className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm font-mono focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="font-mono"
                     />
                     {limite !== Infinity && (
                       <div className="mt-2">
@@ -336,7 +307,7 @@ export default function TemplatesPage() {
                         </div>
                       </div>
                     )}
-                  </div>
+                  </FormField>
                 </div>
 
                 {/* Preview Side */}
@@ -346,15 +317,14 @@ export default function TemplatesPage() {
                   {form.variaveis.length > 0 && (
                     <div className="space-y-2 mb-4">
                       {form.variaveis.map((v) => (
-                        <div key={v}>
-                          <label className="text-xs text-gray-500 mb-0.5 block capitalize">{v}</label>
-                          <input
+                        <FormField key={v} label={v} htmlFor={`var-${v}`}>
+                          <Input
+                            id={`var-${v}`}
                             value={variavelMap[v] || ''}
                             onChange={(e) => setVariavelMap((prev) => ({ ...prev, [v]: e.target.value }))}
                             placeholder={`Valor de {${v}}`}
-                            className="w-full px-2 py-1.5 text-sm border border-gray-200 rounded-lg bg-white"
                           />
-                        </div>
+                        </FormField>
                       ))}
                     </div>
                   )}
@@ -372,20 +342,12 @@ export default function TemplatesPage() {
             </div>
 
             <div className="flex gap-3 px-6 py-4 border-t border-gray-100">
-              <button
-                onClick={handleSubmit}
-                disabled={loading}
-                className="flex-1 inline-flex items-center justify-center gap-2 bg-indigo-600 text-white px-4 py-2.5 rounded-lg hover:bg-indigo-700 disabled:bg-gray-400 font-medium text-sm"
-              >
-                <Save className="w-4 h-4" />
-                {loading ? 'Salvando...' : 'Salvar Template'}
-              </button>
-              <button
-                onClick={() => setShowEditor(false)}
-                className="px-4 py-2.5 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50"
-              >
+              <Button className="flex-1" onClick={handleSubmit} disabled={loading} isLoading={loading} loadingLabel="Salvando...">
+                <Save className="w-4 h-4" /> Salvar Template
+              </Button>
+              <Button variant="secondary" onClick={() => setShowEditor(false)}>
                 Cancelar
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -397,9 +359,9 @@ export default function TemplatesPage() {
           <div className="bg-white rounded-2xl w-full max-w-md p-6" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-semibold text-gray-900">{showPreview.titulo}</h3>
-              <button onClick={() => setShowPreview(null)} className="p-2 hover:bg-gray-100 rounded-lg">
+              <Button variant="ghost" size="icon" onClick={() => setShowPreview(null)}>
                 <X className="w-4 h-4" />
-              </button>
+              </Button>
             </div>
             <div className={`p-4 rounded-xl text-sm whitespace-pre-wrap ${
               showPreview.canal === 'SMS' ? 'bg-blue-50'

@@ -4,6 +4,7 @@ import {
   Send, Plus, X, Save, Users, Zap, BarChart3,
 } from 'lucide-react';
 import { useCampanhas } from '../hooks/useCampanhas';
+import { Button, Input, Select, FormField } from '../components/ui';
 import { useTemplates } from '../hooks/useTemplates';
 import { CreateCampanhaRequest, CampanhaRelatorio } from '../types/campanha';
 import { CATEGORIAS } from '../types/visitante';
@@ -75,12 +76,9 @@ export default function CampanhasPage() {
           <h1 className="text-2xl font-bold text-gray-900">Campanhas</h1>
           <p className="text-gray-500 mt-1">Envio em massa de mensagens</p>
         </div>
-        <button
-          onClick={() => setShowForm(true)}
-          className="inline-flex items-center gap-2 bg-indigo-600 text-white px-4 py-2.5 rounded-lg hover:bg-indigo-700 transition-colors font-medium text-sm"
-        >
+        <Button onClick={() => setShowForm(true)}>
           <Plus className="w-4 h-4" /> Nova Campanha
-        </button>
+        </Button>
       </div>
 
       {error && (
@@ -96,12 +94,9 @@ export default function CampanhasPage() {
         <div className="text-center py-12 bg-white rounded-xl border border-gray-200">
           <Send className="w-12 h-12 text-gray-300 mx-auto mb-3" />
           <p className="text-gray-500">Nenhuma campanha criada</p>
-          <button
-            onClick={() => setShowForm(true)}
-            className="mt-3 text-indigo-600 font-medium text-sm hover:text-indigo-700"
-          >
+          <Button variant="ghost" size="sm" className="mt-3" onClick={() => setShowForm(true)}>
             + Criar primeira campanha
-          </button>
+          </Button>
         </div>
       ) : (
         <div className="space-y-3">
@@ -133,12 +128,9 @@ export default function CampanhasPage() {
                     {c.status}
                   </span>
                   {c.status === 'criada' && (
-                    <button
-                      onClick={() => handleSend(c.id)}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600 text-white rounded-lg text-xs font-medium hover:bg-indigo-700"
-                    >
+                    <Button size="sm" onClick={() => handleSend(c.id)}>
                       <Zap className="w-3.5 h-3.5" /> Enviar
-                    </button>
+                    </Button>
                   )}
                 </div>
               </div>
@@ -153,72 +145,69 @@ export default function CampanhasPage() {
           <div className="bg-white rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
               <h2 className="text-lg font-semibold">Nova Campanha</h2>
-              <button onClick={() => setShowForm(false)} className="p-2 hover:bg-gray-100 rounded-lg">
+              <Button variant="ghost" size="icon" onClick={() => setShowForm(false)}>
                 <X className="w-4 h-4" />
-              </button>
+              </Button>
             </div>
             <div className="px-6 py-4 space-y-4">
               {formError && <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-700">{formError}</div>}
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Titulo *</label>
-                <input
+              <FormField label="Titulo" htmlFor="titulo" required>
+                <Input
+                  id="titulo"
                   value={form.titulo}
                   onChange={(e) => setForm({ ...form, titulo: e.target.value })}
                   placeholder="Nome da campanha"
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
-              </div>
+              </FormField>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Template *</label>
-                <select
+              <FormField label="Template" htmlFor="templateId" required>
+                <Select
+                  id="templateId"
                   value={form.templateId}
                   onChange={(e) => setForm({ ...form, templateId: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 >
                   <option value="">Selecione um template...</option>
                   {templates.filter((t) => t.ativo).map((t) => (
                     <option key={t.id} value={t.id}>{t.titulo} ({t.canal})</option>
                   ))}
-                </select>
-              </div>
+                </Select>
+              </FormField>
 
               <div className="border border-gray-200 rounded-lg p-4 space-y-3">
                 <p className="text-sm font-medium text-gray-700">Segmentacao</p>
                 <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label className="text-xs text-gray-500 mb-1 block">Categoria</label>
-                    <select
+                  <FormField label="Categoria" htmlFor="seg-categoria">
+                    <Select
+                      id="seg-categoria"
                       value={form.segmentacao.categoria || ''}
                       onChange={(e) => setForm({
                         ...form,
                         segmentacao: { ...form.segmentacao, categoria: e.target.value || undefined },
                       })}
-                      className="w-full px-2 py-1.5 border border-gray-200 rounded-lg text-sm"
                     >
                       <option value="">Todas</option>
                       {CATEGORIAS.map((c) => (
                         <option key={c.value} value={c.value}>{c.label}</option>
                       ))}
-                    </select>
-                  </div>
-                  <div>
-                    <label className="text-xs text-gray-500 mb-1 block">Cidade</label>
-                    <input
+                    </Select>
+                  </FormField>
+                  <FormField label="Cidade" htmlFor="seg-cidade">
+                    <Input
+                      id="seg-cidade"
                       value={form.segmentacao.cidade || ''}
                       onChange={(e) => setForm({
                         ...form,
                         segmentacao: { ...form.segmentacao, cidade: e.target.value || undefined },
                       })}
                       placeholder="Filtrar por cidade"
-                      className="w-full px-2 py-1.5 border border-gray-200 rounded-lg text-sm"
                     />
-                  </div>
+                  </FormField>
                 </div>
               </div>
 
               <label className="flex items-center gap-2 cursor-pointer">
+                {/* eslint-disable-next-line no-restricted-syntax -- checkbox nativo: não coberto pelo componente <Input> */}
                 <input
                   type="checkbox"
                   checked={form.envioImediato}
@@ -230,20 +219,12 @@ export default function CampanhasPage() {
             </div>
 
             <div className="flex gap-3 px-6 py-4 border-t border-gray-100">
-              <button
-                onClick={handleSubmit}
-                disabled={loading}
-                className="flex-1 inline-flex items-center justify-center gap-2 bg-indigo-600 text-white px-4 py-2.5 rounded-lg hover:bg-indigo-700 disabled:bg-gray-400 font-medium text-sm"
-              >
-                <Save className="w-4 h-4" />
-                {loading ? 'Criando...' : 'Criar Campanha'}
-              </button>
-              <button
-                onClick={() => setShowForm(false)}
-                className="px-4 py-2.5 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50"
-              >
+              <Button className="flex-1" onClick={handleSubmit} disabled={loading} isLoading={loading} loadingLabel="Criando...">
+                <Save className="w-4 h-4" /> Criar Campanha
+              </Button>
+              <Button variant="secondary" onClick={() => setShowForm(false)}>
                 Cancelar
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -258,9 +239,9 @@ export default function CampanhasPage() {
                 <BarChart3 className="w-5 h-5 text-indigo-600" />
                 Relatorio de Envio
               </h3>
-              <button onClick={() => setRelatorio(null)} className="p-2 hover:bg-gray-100 rounded-lg">
+              <Button variant="ghost" size="icon" onClick={() => setRelatorio(null)}>
                 <X className="w-4 h-4" />
-              </button>
+              </Button>
             </div>
 
             <div className="grid grid-cols-2 gap-4">

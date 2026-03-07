@@ -4,6 +4,7 @@ import {
   TrendingUp, Clock, FileDown,
 } from 'lucide-react';
 import { useRelatorios } from '../hooks/useRelatorios';
+import { Button, Input, FormField } from '../components/ui';
 import { RelatorioAtendimento, RelatorioVisitantes } from '../types/relatorio';
 
 export default function RelatoriosPage() {
@@ -51,62 +52,55 @@ export default function RelatoriosPage() {
           <h1 className="text-2xl font-bold text-gray-900">Relatorios</h1>
           <p className="text-gray-500 mt-1">Analise de atendimento e visitantes</p>
         </div>
-        <button
-          onClick={handleExportCSV}
-          className="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2.5 rounded-lg hover:bg-emerald-700 transition-colors font-medium text-sm"
-        >
+        <Button variant="export" onClick={handleExportCSV}>
           <FileDown className="w-4 h-4" /> Exportar CSV
-        </button>
+        </Button>
       </div>
 
       {/* Filters */}
       <div className="bg-white rounded-xl border border-gray-200 p-4">
         <div className="flex flex-wrap items-end gap-4">
-          <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">Data Inicio</label>
-            <input
+          <FormField label="Data Inicio" htmlFor="dataInicio">
+            <Input
+              id="dataInicio"
               type="date"
               value={dataInicio}
               onChange={(e) => setDataInicio(e.target.value)}
-              className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-auto"
             />
-          </div>
-          <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">Data Fim</label>
-            <input
+          </FormField>
+          <FormField label="Data Fim" htmlFor="dataFim">
+            <Input
+              id="dataFim"
               type="date"
               value={dataFim}
               onChange={(e) => setDataFim(e.target.value)}
-              className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-auto"
             />
-          </div>
+          </FormField>
 
           <div className="flex gap-1 bg-gray-100 rounded-lg p-1">
-            <button
+            <Button
+              size="sm"
+              variant={activeTab === 'atendimento' ? 'secondary' : 'ghost'}
+              className={activeTab === 'atendimento' ? 'shadow-sm' : ''}
               onClick={() => setActiveTab('atendimento')}
-              className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                activeTab === 'atendimento' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500'
-              }`}
             >
               Atendimento
-            </button>
-            <button
+            </Button>
+            <Button
+              size="sm"
+              variant={activeTab === 'visitantes' ? 'secondary' : 'ghost'}
+              className={activeTab === 'visitantes' ? 'shadow-sm' : ''}
               onClick={() => setActiveTab('visitantes')}
-              className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                activeTab === 'visitantes' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500'
-              }`}
             >
               Visitantes
-            </button>
+            </Button>
           </div>
 
-          <button
-            onClick={handleCarregar}
-            disabled={loading}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 disabled:bg-gray-400"
-          >
-            {loading ? 'Carregando...' : 'Gerar Relatorio'}
-          </button>
+          <Button onClick={handleCarregar} disabled={loading} isLoading={loading} loadingLabel="Carregando...">
+            Gerar Relatorio
+          </Button>
         </div>
       </div>
 

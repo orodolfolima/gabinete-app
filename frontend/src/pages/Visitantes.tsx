@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { useVisitantes } from '../hooks/useVisitantes';
 import { Visitante, CreateVisitanteRequest, CATEGORIAS } from '../types/visitante';
+import { Button, Input, Select, FormField } from '../components/ui';
 
 export default function VisitantesPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -117,36 +118,32 @@ export default function VisitantesPage() {
           <h1 className="text-2xl font-bold text-gray-900">Visitantes</h1>
           <p className="text-gray-500 mt-1">{total} cadastrados</p>
         </div>
-        <button
-          onClick={() => { setShowForm(true); setEditando(null); setForm({ cpf: '', nome: '' }); }}
-          className="inline-flex items-center gap-2 bg-indigo-600 text-white px-4 py-2.5 rounded-lg hover:bg-indigo-700 transition-colors font-medium text-sm"
-        >
+        <Button onClick={() => { setShowForm(true); setEditando(null); setForm({ cpf: '', nome: '' }); }}>
           <Plus className="w-4 h-4" /> Novo Visitante
-        </button>
+        </Button>
       </div>
 
       {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="flex-1 relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-          <input
+          <Input
             type="text"
             placeholder="Buscar por nome..."
             value={busca}
             onChange={(e) => setBusca(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            className="pl-10"
           />
         </div>
-        <select
+        <Select
           value={filtroCategoria}
           onChange={(e) => { setFiltroCategoria(e.target.value); setPage(0); }}
-          className="px-4 py-2.5 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
         >
           <option value="">Todas categorias</option>
           {CATEGORIAS.map((c) => (
             <option key={c.value} value={c.value}>{c.label}</option>
           ))}
-        </select>
+        </Select>
       </div>
 
       {error && (
@@ -162,12 +159,9 @@ export default function VisitantesPage() {
         <div className="text-center py-12 bg-white rounded-xl border border-gray-200">
           <Users className="w-12 h-12 text-gray-300 mx-auto mb-3" />
           <p className="text-gray-500">Nenhum visitante encontrado</p>
-          <button
-            onClick={() => setShowForm(true)}
-            className="mt-3 text-indigo-600 font-medium text-sm hover:text-indigo-700"
-          >
+          <Button variant="ghost" size="sm" className="mt-3" onClick={() => setShowForm(true)}>
             + Cadastrar primeiro visitante
-          </button>
+          </Button>
         </div>
       ) : (
         <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
@@ -223,27 +217,15 @@ export default function VisitantesPage() {
                       </td>
                       <td className="px-4 py-3 text-right">
                         <div className="flex items-center justify-end gap-1">
-                          <button
-                            onClick={() => handleViewDetail(v)}
-                            className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
-                            title="Ver detalhes"
-                          >
+                          <Button variant="icon-view" size="icon" onClick={() => handleViewDetail(v)} title="Ver detalhes">
                             <Eye className="w-4 h-4" />
-                          </button>
-                          <button
-                            onClick={() => handleEdit(v)}
-                            className="p-2 text-gray-400 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-colors"
-                            title="Editar"
-                          >
+                          </Button>
+                          <Button variant="icon-edit" size="icon" onClick={() => handleEdit(v)} title="Editar">
                             <MessageCircle className="w-4 h-4" />
-                          </button>
-                          <button
-                            onClick={() => handleDelete(v.id)}
-                            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                            title="Remover"
-                          >
+                          </Button>
+                          <Button variant="icon-delete" size="icon" onClick={() => handleDelete(v.id)} title="Remover">
                             <Trash2 className="w-4 h-4" />
-                          </button>
+                          </Button>
                         </div>
                       </td>
                     </tr>
@@ -259,20 +241,12 @@ export default function VisitantesPage() {
                 Mostrando {page * limite + 1}-{Math.min((page + 1) * limite, total)} de {total}
               </p>
               <div className="flex gap-2">
-                <button
-                  onClick={() => setPage((p) => Math.max(0, p - 1))}
-                  disabled={page === 0}
-                  className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
+                <Button variant="outline" size="icon" onClick={() => setPage((p) => Math.max(0, p - 1))} disabled={page === 0}>
                   <ChevronLeft className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => setPage((p) => p + 1)}
-                  disabled={(page + 1) * limite >= total}
-                  className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
+                </Button>
+                <Button variant="outline" size="icon" onClick={() => setPage((p) => p + 1)} disabled={(page + 1) * limite >= total}>
                   <ChevronRight className="w-4 h-4" />
-                </button>
+                </Button>
               </div>
             </div>
           )}
@@ -285,98 +259,84 @@ export default function VisitantesPage() {
           <div className="bg-white rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
               <h2 className="text-lg font-semibold">{editando ? 'Editar Visitante' : 'Novo Visitante'}</h2>
-              <button onClick={() => setShowForm(false)} className="p-2 hover:bg-gray-100 rounded-lg">
+              <Button variant="ghost" size="icon" onClick={() => setShowForm(false)}>
                 <X className="w-4 h-4" />
-              </button>
+              </Button>
             </div>
             <div className="px-6 py-4 space-y-4">
               {formError && <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-700">{formError}</div>}
 
               <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">CPF *</label>
-                  <input
+                <FormField label="CPF" htmlFor="cpf" required>
+                  <Input
+                    id="cpf"
                     value={form.cpf}
                     onChange={(e) => setForm({ ...form, cpf: e.target.value })}
                     placeholder="00000000000"
                     disabled={!!editando}
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:bg-gray-100"
                   />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Nome *</label>
-                  <input
+                </FormField>
+                <FormField label="Nome" htmlFor="nome" required>
+                  <Input
+                    id="nome"
                     value={form.nome}
                     onChange={(e) => setForm({ ...form, nome: e.target.value })}
                     placeholder="Nome completo"
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
-                </div>
+                </FormField>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                  <input
+                <FormField label="Email" htmlFor="email">
+                  <Input
+                    id="email"
+                    type="email"
                     value={form.email || ''}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
                     placeholder="email@exemplo.com"
-                    type="email"
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Telefone</label>
-                  <input
+                </FormField>
+                <FormField label="Telefone" htmlFor="telefone">
+                  <Input
+                    id="telefone"
                     value={form.telefone || ''}
                     onChange={(e) => setForm({ ...form, telefone: e.target.value })}
                     placeholder="11999990000"
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
-                </div>
+                </FormField>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">WhatsApp</label>
-                  <input
+                <FormField label="WhatsApp" htmlFor="whatsapp">
+                  <Input
+                    id="whatsapp"
                     value={form.whatsapp || ''}
                     onChange={(e) => setForm({ ...form, whatsapp: e.target.value })}
                     placeholder="11999990000"
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Categoria</label>
-                  <select
+                </FormField>
+                <FormField label="Categoria" htmlFor="categoria">
+                  <Select
+                    id="categoria"
                     value={form.categoria || ''}
                     onChange={(e) => setForm({ ...form, categoria: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   >
                     <option value="">Selecione...</option>
                     {CATEGORIAS.map((c) => (
                       <option key={c.value} value={c.value}>{c.label}</option>
                     ))}
-                  </select>
-                </div>
+                  </Select>
+                </FormField>
               </div>
             </div>
 
             <div className="flex gap-3 px-6 py-4 border-t border-gray-100">
-              <button
-                onClick={handleSubmit}
-                disabled={loading}
-                className="flex-1 inline-flex items-center justify-center gap-2 bg-indigo-600 text-white px-4 py-2.5 rounded-lg hover:bg-indigo-700 disabled:bg-gray-400 font-medium text-sm"
-              >
-                <Save className="w-4 h-4" />
-                {loading ? 'Salvando...' : 'Salvar'}
-              </button>
-              <button
-                onClick={() => setShowForm(false)}
-                className="px-4 py-2.5 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50"
-              >
+              <Button className="flex-1" onClick={handleSubmit} disabled={loading} isLoading={loading} loadingLabel="Salvando...">
+                <Save className="w-4 h-4" /> Salvar
+              </Button>
+              <Button variant="secondary" onClick={() => setShowForm(false)}>
                 Cancelar
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -388,9 +348,9 @@ export default function VisitantesPage() {
           <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
               <h2 className="text-lg font-semibold">{showDetail.nome}</h2>
-              <button onClick={() => setShowDetail(null)} className="p-2 hover:bg-gray-100 rounded-lg">
+              <Button variant="ghost" size="icon" onClick={() => setShowDetail(null)}>
                 <X className="w-4 h-4" />
-              </button>
+              </Button>
             </div>
 
             <div className="px-6 py-4 space-y-6">
@@ -411,30 +371,24 @@ export default function VisitantesPage() {
               <div className="border-t border-gray-100 pt-4">
                 <h3 className="text-sm font-semibold text-gray-900 mb-3">Nova Interacao</h3>
                 <div className="flex gap-2">
-                  <select
+                  <Select
                     value={interacaoTipo}
                     onChange={(e) => setInteracaoTipo(e.target.value)}
-                    className="px-3 py-2 border border-gray-200 rounded-lg text-sm"
                   >
                     <option value="">Tipo...</option>
                     <option value="ligacao">Ligacao</option>
                     <option value="email">Email</option>
                     <option value="reuniao">Reuniao</option>
                     <option value="visita">Visita</option>
-                  </select>
-                  <input
+                  </Select>
+                  <Input
                     value={interacaoDesc}
                     onChange={(e) => setInteracaoDesc(e.target.value)}
                     placeholder="Descricao..."
-                    className="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-sm"
                   />
-                  <button
-                    onClick={handleAddInteracao}
-                    disabled={!interacaoTipo || !interacaoDesc}
-                    className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 disabled:bg-gray-300"
-                  >
+                  <Button size="sm" onClick={handleAddInteracao} disabled={!interacaoTipo || !interacaoDesc}>
                     Adicionar
-                  </button>
+                  </Button>
                 </div>
               </div>
 

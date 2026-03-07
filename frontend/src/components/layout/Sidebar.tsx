@@ -11,6 +11,7 @@ import {
   Building2,
 } from 'lucide-react';
 import { useState } from 'react';
+import { Button } from '../ui';
 
 const navItems = [
   { to: '/', icon: LayoutDashboard, label: 'Dashboard' },
@@ -28,12 +29,14 @@ export default function Sidebar() {
   return (
     <>
       {/* Mobile toggle */}
-      <button
+      <Button
+        variant="ghost"
+        size="icon"
         onClick={() => setMobileOpen(true)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-white rounded-lg shadow-md"
+        className="lg:hidden fixed top-4 left-4 z-50 bg-white shadow-md text-gray-600"
       >
-        <Menu className="w-5 h-5 text-gray-600" />
-      </button>
+        <Menu className="w-5 h-5" />
+      </Button>
 
       {/* Mobile overlay */}
       {mobileOpen && (
@@ -64,21 +67,23 @@ export default function Sidebar() {
               <p className="text-xs text-gray-500 truncate">Gestao de Gabinete</p>
             </div>
           )}
-          <button
+          <Button
+            variant="ghost"
             onClick={() => {
               setCollapsed(!collapsed);
               setMobileOpen(false);
             }}
-            className="ml-auto p-1.5 rounded-lg hover:bg-gray-100 hidden lg:block"
+            className="ml-auto p-1.5 hidden lg:block text-gray-400"
           >
-            {collapsed ? <Menu className="w-4 h-4 text-gray-400" /> : <X className="w-4 h-4 text-gray-400" />}
-          </button>
-          <button
+            {collapsed ? <Menu className="w-4 h-4" /> : <X className="w-4 h-4" />}
+          </Button>
+          <Button
+            variant="ghost"
             onClick={() => setMobileOpen(false)}
-            className="ml-auto p-1.5 rounded-lg hover:bg-gray-100 lg:hidden"
+            className="ml-auto p-1.5 lg:hidden text-gray-400"
           >
-            <X className="w-4 h-4 text-gray-400" />
-          </button>
+            <X className="w-4 h-4" />
+          </Button>
         </div>
 
         {/* Navigation */}

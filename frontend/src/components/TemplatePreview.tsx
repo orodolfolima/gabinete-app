@@ -1,6 +1,7 @@
 // Componente TemplatePreview (Story 1.4.1 - Frontend)
 import { useState, useMemo } from 'react';
 import { TemplateChannel, CANAL_LABELS } from '../types/template';
+import { Input, FormField } from './ui';
 
 interface TemplatePreviewProps {
   conteudo: string;
@@ -109,11 +110,9 @@ export default function TemplatePreview({
             Substitua as variáveis para preview:
           </p>
           {variaveis.map((variavel) => (
-            <div key={variavel}>
-              <label className="block text-xs font-medium text-gray-600 mb-1">
-                {variavel}
-              </label>
-              <input
+            <FormField key={variavel} label={variavel} htmlFor={`var-preview-${variavel}`}>
+              <Input
+                id={`var-preview-${variavel}`}
                 type="text"
                 placeholder={`Digite o valor para {${variavel}}`}
                 value={variavelMap[variavel] || ''}
@@ -121,9 +120,8 @@ export default function TemplatePreview({
                   ...prev,
                   [variavel]: e.target.value,
                 }))}
-                className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-            </div>
+            </FormField>
           ))}
         </div>
       )}

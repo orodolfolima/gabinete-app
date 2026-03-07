@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { useAgendamentos } from '../hooks/useAgendamentos';
 import { useVisitantes } from '../hooks/useVisitantes';
+import { Button, Input, Select, FormField } from '../components/ui';
 import {
   CreateAgendamentoRequest, TIPOS_AGENDAMENTO,
   STATUS_COLORS, STATUS_LABELS, AgendamentoStatus,
@@ -100,38 +101,34 @@ export default function AgendamentosPage() {
           <h1 className="text-2xl font-bold text-gray-900">Agendamentos</h1>
           <p className="text-gray-500 mt-1">{total} no periodo</p>
         </div>
-        <button
-          onClick={() => setShowForm(true)}
-          className="inline-flex items-center gap-2 bg-indigo-600 text-white px-4 py-2.5 rounded-lg hover:bg-indigo-700 transition-colors font-medium text-sm"
-        >
+        <Button onClick={() => setShowForm(true)}>
           <Plus className="w-4 h-4" /> Novo Agendamento
-        </button>
+        </Button>
       </div>
 
       {/* Filters */}
       <div className="flex flex-wrap gap-3">
-        <input
+        <Input
           type="date"
           value={dataInicio}
           onChange={(e) => setDataInicio(e.target.value)}
-          className="px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="w-auto"
         />
-        <input
+        <Input
           type="date"
           value={dataFim}
           onChange={(e) => setDataFim(e.target.value)}
-          className="px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="w-auto"
         />
-        <select
+        <Select
           value={filtroStatus}
           onChange={(e) => setFiltroStatus(e.target.value)}
-          className="px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
         >
           <option value="">Todos status</option>
           {(Object.entries(STATUS_LABELS) as [AgendamentoStatus, string][]).map(([key, label]) => (
             <option key={key} value={key}>{label}</option>
           ))}
-        </select>
+        </Select>
       </div>
 
       {error && (
@@ -196,31 +193,19 @@ export default function AgendamentosPage() {
                     </span>
 
                     {ag.status === 'agendado' && !isPast && (
-                      <button
-                        onClick={() => handleCheckIn(ag.id)}
-                        className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                        title="Check-in"
-                      >
+                      <Button variant="ghost" size="icon" className="text-blue-600 hover:bg-blue-50" onClick={() => handleCheckIn(ag.id)} title="Check-in">
                         <LogIn className="w-4 h-4" />
-                      </button>
+                      </Button>
                     )}
                     {ag.status === 'confirmado' && (
-                      <button
-                        onClick={() => handleCheckOut(ag.id)}
-                        className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
-                        title="Check-out"
-                      >
+                      <Button variant="ghost" size="icon" className="text-green-600 hover:bg-green-50" onClick={() => handleCheckOut(ag.id)} title="Check-out">
                         <LogOut className="w-4 h-4" />
-                      </button>
+                      </Button>
                     )}
                     {ag.status !== 'cancelado' && ag.status !== 'realizado' && (
-                      <button
-                        onClick={() => handleCancel(ag.id)}
-                        className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
-                        title="Cancelar"
-                      >
+                      <Button variant="icon-delete" size="icon" onClick={() => handleCancel(ag.id)} title="Cancelar">
                         <X className="w-4 h-4" />
-                      </button>
+                      </Button>
                     )}
                   </div>
                 </div>
@@ -236,28 +221,29 @@ export default function AgendamentosPage() {
           <div className="bg-white rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
               <h2 className="text-lg font-semibold">Novo Agendamento</h2>
-              <button onClick={() => setShowForm(false)} className="p-2 hover:bg-gray-100 rounded-lg">
+              <Button variant="ghost" size="icon" onClick={() => setShowForm(false)}>
                 <X className="w-4 h-4" />
-              </button>
+              </Button>
             </div>
             <div className="px-6 py-4 space-y-4">
               {formError && <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-700">{formError}</div>}
 
               {/* Visitor select */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Visitante *</label>
+              <FormField label="Visitante" htmlFor="visitante" required>
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                  <input
+                  <Input
+                    id="visitante"
                     value={buscaVisitante}
                     onChange={(e) => setBuscaVisitante(e.target.value)}
                     placeholder="Buscar visitante..."
-                    className="w-full pl-10 pr-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="pl-10"
                   />
                 </div>
                 {buscaVisitante && (
                   <div className="mt-1 border border-gray-200 rounded-lg max-h-32 overflow-y-auto">
                     {visitantesFiltrados.slice(0, 5).map((v) => (
+                      // eslint-disable-next-line no-restricted-syntax -- item de lista dropdown: não é ação semântica, é item de seleção
                       <button
                         key={v.id}
                         onClick={() => { setForm({ ...form, visitanteId: v.id }); setBuscaVisitante(v.nome); }}
@@ -268,81 +254,68 @@ export default function AgendamentosPage() {
                     ))}
                   </div>
                 )}
-              </div>
+              </FormField>
 
               <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Data e Hora *</label>
-                  <input
+                <FormField label="Data e Hora" htmlFor="dataHora" required>
+                  <Input
+                    id="dataHora"
                     type="datetime-local"
                     value={form.dataHora}
                     onChange={(e) => setForm({ ...form, dataHora: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Duracao (min) *</label>
-                  <input
+                </FormField>
+                <FormField label="Duracao (min)" htmlFor="duracao" required>
+                  <Input
+                    id="duracao"
                     type="number"
                     value={form.duracao}
                     onChange={(e) => setForm({ ...form, duracao: Number(e.target.value) })}
                     min={1}
                     max={480}
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
-                </div>
+                </FormField>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Tipo *</label>
-                  <select
+                <FormField label="Tipo" htmlFor="tipo" required>
+                  <Select
+                    id="tipo"
                     value={form.tipo}
                     onChange={(e) => setForm({ ...form, tipo: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   >
                     {TIPOS_AGENDAMENTO.map((t) => (
                       <option key={t.value} value={t.value}>{t.label}</option>
                     ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Responsavel</label>
-                  <input
+                  </Select>
+                </FormField>
+                <FormField label="Responsavel" htmlFor="responsavel">
+                  <Input
+                    id="responsavel"
                     value={form.responsavel || ''}
                     onChange={(e) => setForm({ ...form, responsavel: e.target.value })}
                     placeholder="Nome..."
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
-                </div>
+                </FormField>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Assunto *</label>
-                <input
+              <FormField label="Assunto" htmlFor="assunto" required>
+                <Input
+                  id="assunto"
                   value={form.assunto}
                   onChange={(e) => setForm({ ...form, assunto: e.target.value })}
                   placeholder="Motivo do agendamento..."
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
-              </div>
+              </FormField>
             </div>
 
             <div className="flex gap-3 px-6 py-4 border-t border-gray-100">
-              <button
-                onClick={handleSubmit}
-                disabled={loading}
-                className="flex-1 inline-flex items-center justify-center gap-2 bg-indigo-600 text-white px-4 py-2.5 rounded-lg hover:bg-indigo-700 disabled:bg-gray-400 font-medium text-sm"
-              >
-                <Save className="w-4 h-4" />
-                {loading ? 'Salvando...' : 'Agendar'}
-              </button>
-              <button
-                onClick={() => setShowForm(false)}
-                className="px-4 py-2.5 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50"
-              >
+              <Button className="flex-1" onClick={handleSubmit} disabled={loading} isLoading={loading} loadingLabel="Salvando...">
+                <Save className="w-4 h-4" /> Agendar
+              </Button>
+              <Button variant="secondary" onClick={() => setShowForm(false)}>
                 Cancelar
-              </button>
+              </Button>
             </div>
           </div>
         </div>
