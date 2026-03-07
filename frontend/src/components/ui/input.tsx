@@ -1,8 +1,8 @@
 // Input, Select, Textarea — SIGGAP Design System | Atomic level: Atom
 // Tokens: outputs/design-system/siggap/tokens/tokens.yaml
 // Usage: import { Input, Select, Textarea } from '@/components/ui'
-import * as React from 'react'
-import { cn } from '@/lib/utils'
+import * as React from 'react';
+import { cn } from '@/lib/utils';
 
 // ---------------------------------------------------------------------------
 // Shared base classes (from design tokens)
@@ -16,7 +16,7 @@ const baseInputClasses = [
   'focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent',
   'disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed',
   'aria-invalid:border-red-400 aria-invalid:focus:ring-red-500',
-].join(' ')
+].join(' ');
 
 // ---------------------------------------------------------------------------
 // Input
@@ -35,9 +35,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       aria-invalid={error || undefined}
       {...props}
     />
-  )
-)
-Input.displayName = 'Input'
+  ),
+);
+Input.displayName = 'Input';
 
 // ---------------------------------------------------------------------------
 // Select
@@ -48,7 +48,9 @@ export interface SelectProps
 }
 
 const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
-  ({ className, error, children, ...props }, ref) => (
+  ({
+    className, error, children, ...props
+  }, ref) => (
     <select
       ref={ref}
       className={cn(
@@ -56,16 +58,16 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
         'appearance-none bg-white cursor-pointer',
         // chevron icon via background-image (no extra dep)
         "bg-[url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E\")] bg-no-repeat bg-[right_12px_center] pr-8",
-        className
+        className,
       )}
       aria-invalid={error || undefined}
       {...props}
     >
       {children}
     </select>
-  )
-)
-Select.displayName = 'Select'
+  ),
+);
+Select.displayName = 'Select';
 
 // ---------------------------------------------------------------------------
 // Textarea
@@ -83,9 +85,9 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
       aria-invalid={error || undefined}
       {...props}
     />
-  )
-)
-Textarea.displayName = 'Textarea'
+  ),
+);
+Textarea.displayName = 'Textarea';
 
 // ---------------------------------------------------------------------------
 // FormField — label + input + error message composition
@@ -98,7 +100,9 @@ export interface FormFieldProps {
   children: React.ReactNode
 }
 
-function FormField({ label, htmlFor, error, required, children }: FormFieldProps) {
+function FormField({
+  label, htmlFor, error, required, children,
+}: FormFieldProps) {
   return (
     <div className="flex flex-col gap-1">
       <label
@@ -117,7 +121,9 @@ function FormField({ label, htmlFor, error, required, children }: FormFieldProps
         </p>
       )}
     </div>
-  )
+  );
 }
 
-export { Input, Select, Textarea, FormField }
+export {
+  Input, Select, Textarea, FormField,
+};

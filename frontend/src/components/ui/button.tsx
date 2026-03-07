@@ -1,7 +1,7 @@
-import * as React from 'react'
-import { Slot } from '@radix-ui/react-slot'
-import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from '@/lib/utils'
+import * as React from 'react';
+import { Slot } from '@radix-ui/react-slot';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
 
 // ---------------------------------------------------------------------------
 // Variant catalogue — derived from SIGGAP design tokens
@@ -48,24 +48,24 @@ export const buttonVariants = cva(
           'p-0 text-gray-400 hover:text-red-600 hover:bg-red-50',
       },
       size: {
-        sm:   'px-3 py-1.5 text-xs',
-        md:   'px-4 py-2.5 text-sm',   // standard (btn-x=16px, btn-y=10px)
-        lg:   'px-5 py-3 text-base',
-        icon: 'p-2',                    // ghost/close buttons
+        sm: 'px-3 py-1.5 text-xs',
+        md: 'px-4 py-2.5 text-sm', // standard (btn-x=16px, btn-y=10px)
+        lg: 'px-5 py-3 text-base',
+        icon: 'p-2', // ghost/close buttons
       },
     },
     compoundVariants: [
       // icon-action variants ignore size padding — always p-2
-      { variant: 'icon-view',   size: 'md', className: 'p-2' },
-      { variant: 'icon-edit',   size: 'md', className: 'p-2' },
+      { variant: 'icon-view', size: 'md', className: 'p-2' },
+      { variant: 'icon-edit', size: 'md', className: 'p-2' },
       { variant: 'icon-delete', size: 'md', className: 'p-2' },
     ],
     defaultVariants: {
       variant: 'primary',
       size: 'md',
     },
-  }
-)
+  },
+);
 
 // ---------------------------------------------------------------------------
 // Props
@@ -107,7 +107,7 @@ function Spinner({ className }: { className?: string }) {
         d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
       />
     </svg>
-  )
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -126,9 +126,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       disabled,
       ...props
     },
-    ref
+    ref,
   ) => {
-    const Comp = asChild ? Slot : 'button'
+    const Comp = asChild ? Slot : 'button';
 
     return (
       <Comp
@@ -151,9 +151,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           </>
         )}
       </Comp>
-    )
-  }
-)
-Button.displayName = 'Button'
+    );
+  },
+);
+Button.displayName = 'Button';
 
-export { Button }
+export { Button };

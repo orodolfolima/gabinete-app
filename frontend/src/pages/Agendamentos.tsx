@@ -6,7 +6,9 @@ import {
 } from 'lucide-react';
 import { useAgendamentos } from '../hooks/useAgendamentos';
 import { useVisitantes } from '../hooks/useVisitantes';
-import { Button, Input, Select, FormField } from '../components/ui';
+import {
+  Button, Input, Select, FormField,
+} from '../components/ui';
 import {
   CreateAgendamentoRequest, TIPOS_AGENDAMENTO,
   STATUS_COLORS, STATUS_LABELS, AgendamentoStatus,

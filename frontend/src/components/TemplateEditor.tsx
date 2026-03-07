@@ -8,7 +8,9 @@ import {
   VARIAVEIS_DISPONIVEIS,
 } from '../types/template';
 import TemplatePreview from './TemplatePreview';
-import { Button, Input, Select, Textarea, FormField } from './ui';
+import {
+  Button, Input, Select, Textarea, FormField,
+} from './ui';
 
 interface TemplateEditorProps {
   template?: Template;

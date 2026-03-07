@@ -5,7 +5,9 @@ import {
   Trash2, Edit2, Smartphone, MessageCircle, Mail,
 } from 'lucide-react';
 import { useTemplates } from '../hooks/useTemplates';
-import { Button, Input, Textarea, FormField } from '../components/ui';
+import {
+  Button, Input, Textarea, FormField,
+} from '../components/ui';
 import {
   Template, CreateTemplateRequest, TemplateChannel,
   CANAL_LABELS, VARIAVEIS_DISPONIVEIS,
@@ -122,7 +124,12 @@ export default function TemplatesPage() {
           <h1 className="text-2xl font-bold text-gray-900">Templates</h1>
           <p className="text-gray-500 mt-1">Modelos de mensagens</p>
         </div>
-        <Button onClick={() => { setShowEditor(true); setEditando(null); setForm({ titulo: '', conteudo: '', canal: 'SMS', variaveis: [] }); }}>
+        <Button onClick={() => {
+          setShowEditor(true); setEditando(null); setForm({
+            titulo: '', conteudo: '', canal: 'SMS', variaveis: [],
+          });
+        }}
+        >
           <Plus className="w-4 h-4" /> Novo Template
         </Button>
       </div>

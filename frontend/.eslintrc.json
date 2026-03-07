@@ -80,9 +80,10 @@
       }
     },
     {
-      "files": ["src/**/*.test.tsx", "src/**/*.test.ts", "src/**/*.spec.tsx"],
+      "files": ["src/**/*.test.tsx", "src/**/*.test.ts", "src/**/*.spec.tsx", "src/test/**/*"],
       "rules": {
-        "no-restricted-syntax": "off"
+        "no-restricted-syntax": "off",
+        "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
       }
     }
   ]

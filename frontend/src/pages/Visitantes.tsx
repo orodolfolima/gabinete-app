@@ -7,7 +7,9 @@ import {
 } from 'lucide-react';
 import { useVisitantes } from '../hooks/useVisitantes';
 import { Visitante, CreateVisitanteRequest, CATEGORIAS } from '../types/visitante';
-import { Button, Input, Select, FormField } from '../components/ui';
+import {
+  Button, Input, Select, FormField,
+} from '../components/ui';
 
 export default function VisitantesPage() {
   const [searchParams, setSearchParams] = useSearchParams();
